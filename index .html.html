@@ -1,0 +1,2458 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TONE LAB — Hotone Ampero MP-100 빈티지 앰프 톤 세팅기</title>
+    <meta name="description" content="연주하고 싶은 곡을 입력하면 Hotone Ampero MP-100 공식 매뉴얼(V3.0) 기반 9개 시그널 체인 모델명과 노브 세팅을 즉시 추천해 드립니다.">
+    <meta name="theme-color" content="#241D18">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23241D18' stroke='%23CFA649' stroke-width='4'/%3E%3Ccircle cx='32' cy='32' r='16' fill='%23DC2626' stroke='%23F0D98C' stroke-width='3'/%3E%3Ccircle cx='27' cy='27' r='5' fill='%23FF9E9E'/%3E%3C/svg%3E">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="TONE LAB — Hotone Ampero MP-100 톤 세팅 추천기">
+    <meta property="og:description" content="곡명만 입력하면 원곡 장비 정보와 MP-100 9모듈 노브 세팅을 한눈에 확인하세요.">
+    <meta property="og:image" content="https://mp100-tone-lab.vercel.app/og-thumbnail.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="TONE LAB — Hotone Ampero MP-100 톤 세팅 추천기">
+    <meta name="twitter:description" content="곡명만 입력하면 원곡 장비 정보와 MP-100 9모듈 노브 세팅을 한눈에 확인하세요.">
+    <meta name="twitter:image" content="https://mp100-tone-lab.vercel.app/og-thumbnail.png">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700;800&family=Oswald:wght@500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        amp: ['Oswald', 'Inter', 'sans-serif'],
+                        script: ['"Playfair Display"', 'serif'],
+                        sans: ['Inter', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace'],
+                    },
+                    colors: {
+                        tweed: {
+                            bg: '#EAE0CC',
+                            card: '#FBF7EE',
+                            panel: '#F3EBD9',
+                            border: '#C8B99B',
+                        },
+                        tolex: {
+                            DEFAULT: '#241D18',
+                            light: '#382D25',
+                            dark: '#181310',
+                        },
+                        brass: {
+                            light: '#F0D98C',
+                            DEFAULT: '#CFA649',
+                            dark: '#9A7426',
+                        },
+                        jewel: {
+                            red: '#C92A2A',
+                            amber: '#D97706',
+                            green: '#2B7A5B',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #EAE0CC;
+            background-image:
+                repeating-linear-gradient(45deg, rgba(139, 108, 66, 0.06) 0px, rgba(139, 108, 66, 0.06) 2px, transparent 2px, transparent 6px),
+                repeating-linear-gradient(-45deg, rgba(92, 68, 38, 0.05) 0px, rgba(92, 68, 38, 0.05) 2px, transparent 2px, transparent 6px);
+            color: #241D18;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+
+        .amp-cabinet {
+            background-color: #FBF7EE;
+            border: 2px solid #2C231C;
+            box-shadow:
+                0 6px 18px rgba(36, 29, 24, 0.10),
+                inset 0 0 0 2px rgba(207, 166, 73, 0.25);
+        }
+
+        .gold-faceplate {
+            background: linear-gradient(135deg, #E8CE82 0%, #D4B055 48%, #C49A3B 100%);
+            border-bottom: 2px solid #241D18;
+            box-shadow: inset 0 1px 0 rgba(255, 250, 230, 0.65);
+        }
+
+        .tolex-bar {
+            background-color: #241D18;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 0);
+            background-size: 6px 6px;
+            border-bottom: 3px solid #CFA649;
+        }
+
+        .amp-btn {
+            border: 1.5px solid #241D18;
+            box-shadow: 0 2px 0 #241D18;
+            transition: transform 0.12s ease, box-shadow 0.12s ease, background-color 0.15s ease;
+        }
+        .amp-btn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            box-shadow: 0 3px 0 #241D18;
+        }
+        .amp-btn:active:not(:disabled) {
+            transform: translateY(1px);
+            box-shadow: 0 1px 0 #241D18;
+        }
+
+        .jewel-lamp {
+            background: radial-gradient(circle at 35% 35%, #FF8A8A 0%, #DC2626 52%, #7F1D1D 100%);
+            box-shadow: 0 0 10px rgba(220, 38, 38, 0.7), inset 0 0 2px rgba(255, 255, 255, 0.7);
+            border: 2px solid #CFA649;
+        }
+
+        .brass-screw {
+            width: 8px;
+            height: 8px;
+            border-radius: 9999px;
+            background: radial-gradient(circle at 30% 30%, #F5E1A4, #9A7426);
+            border: 1px solid #3B2B13;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.5);
+        }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-up {
+            animation: fadeUp 0.3s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans antialiased selection:bg-brass-light selection:text-tolex-dark">
+
+    <!-- 상단 헤더 네비게이션 -->
+    <header class="sticky top-0 z-30 tolex-bar shadow-md">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-3">
+            <div class="flex items-center gap-3 min-w-0">
+                <div class="flex items-center gap-2 shrink-0">
+                    <span class="jewel-lamp w-4 h-4 rounded-full inline-block" title="AMP POWER ON"></span>
+                </div>
+                <div class="truncate">
+                    <div class="flex items-center gap-2.5">
+                        <h1 class="font-script italic font-bold text-xl sm:text-2xl tracking-wide text-brass-light drop-shadow-sm">Tone Lab</h1>
+                        <span class="px-2 py-0.5 text-[10px] font-amp font-bold tracking-widest uppercase rounded bg-gradient-to-b from-brass-light to-brass text-tolex-dark border border-tolex-dark shadow-sm">
+                            MP-100 TUBE SPEC
+                        </span>
+                    </div>
+                    <p class="text-[11px] font-medium text-tweed-border hidden sm:block">Hotone Ampero MP-100 전용 빈티지 톤 세팅 가이드</p>
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2 shrink-0">
+                <button id="openAuthBtn" type="button" class="amp-btn flex items-center gap-1.5 px-3 py-2 rounded-lg bg-tolex-light hover:bg-[#46392E] text-xs sm:text-sm font-bold text-tweed-card border-brass/50 shrink-0">
+                    <span id="authStatusDot" class="w-2.5 h-2.5 rounded-full bg-neutral-400 border border-tolex-dark shrink-0"></span>
+                    <span id="authBtnLabel" class="max-w-[84px] sm:max-w-[120px] truncate">로그인</span>
+                </button>
+                <button id="openSavedBtn" type="button" class="amp-btn flex items-center gap-1.5 sm:gap-2 px-3 sm:px-3.5 py-2 rounded-lg bg-gradient-to-b from-brass-light to-brass hover:brightness-105 text-xs sm:text-sm font-extrabold text-tolex-dark shrink-0">
+                    <svg class="w-4 h-4 text-tolex-dark" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                    </svg>
+                    <span class="sm:hidden">패치북</span>
+                    <span class="hidden sm:inline">내 패치북</span>
+                    <span id="savedCountBadge" class="px-1.5 py-0.5 text-[11px] font-mono font-bold rounded bg-tolex text-brass-light">0</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- 메인 컨테이너 -->
+    <main class="flex-1 max-w-5xl w-full mx-auto px-4 sm:px-6 py-6 sm:py-8 space-y-6">
+
+        <!-- 1. 검색 및 장비 설정 카드 -->
+        <section class="amp-cabinet rounded-2xl overflow-hidden">
+            <div class="gold-faceplate px-5 py-3 flex flex-wrap items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5">
+                    <span class="brass-screw hidden sm:inline-block"></span>
+                    <span class="w-2.5 h-2.5 rounded-full bg-jewel-green border border-tolex-dark shadow-[0_0_6px_rgba(43,122,91,0.6)]"></span>
+                    <span class="font-amp text-xs font-bold uppercase tracking-widest text-tolex/75">INPUT CHANNEL</span>
+                    <span class="font-amp text-sm font-bold tracking-wider uppercase text-tolex-dark bg-tweed-card/75 px-2.5 py-0.5 rounded border border-tolex-dark/40">
+                        Hotone Ampero MP-100
+                    </span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                    <span class="font-mono text-[11px] font-bold text-tolex-dark tracking-tight">
+                        9-MODULE SIGNAL CHAIN · V3.0
+                    </span>
+                    <span class="brass-screw hidden sm:inline-block"></span>
+                </div>
+            </div>
+
+            <form id="toneForm" class="p-5 sm:p-6 space-y-4">
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-3.5">
+                    <div class="md:col-span-6">
+                        <label for="songInput" class="block font-amp text-xs font-bold text-tolex mb-1.5 uppercase tracking-wider">
+                            연주하고 싶은 곡 (Artist - Song)
+                        </label>
+                        <div class="relative">
+                            <input
+                                id="songInput"
+                                type="text"
+                                required
+                                placeholder="예: 윤하 - 사건의 지평선, Nirvana - Smells Like Teen Spirit"
+                                class="w-full rounded-xl bg-white border-2 border-tweed-border focus:border-tolex focus:ring-4 focus:ring-brass/30 px-4 py-3 text-base sm:text-sm font-semibold text-tolex placeholder-neutral-400 outline-none transition"
+                            />
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-3">
+                        <label for="pickupSelect" class="block font-amp text-xs font-bold text-tolex mb-1.5 uppercase tracking-wider">
+                            Pickup Select
+                        </label>
+                        <select id="pickupSelect" class="w-full rounded-xl bg-white border-2 border-tweed-border focus:border-tolex focus:ring-4 focus:ring-brass/30 px-3.5 py-3 text-base sm:text-sm font-semibold text-tolex outline-none transition">
+                            <option value="원곡 기준 자동">원곡 기준 자동</option>
+                            <option value="싱글 코일 (스트랫/텔레)">싱글 코일 (스트랫/텔레)</option>
+                            <option value="험버커 (레스폴/슈퍼스트랫)">험버커 (레스폴/슈퍼스트랫)</option>
+                            <option value="SSH (싱-싱-험)">SSH (싱-싱-험)</option>
+                            <option value="P-90 / 세미할로우">P-90 / 세미할로우</option>
+                        </select>
+                    </div>
+
+                    <div class="md:col-span-3">
+                        <label for="partSelect" class="block font-amp text-xs font-bold text-tolex mb-1.5 uppercase tracking-wider">
+                            Play Part
+                        </label>
+                        <select id="partSelect" class="w-full rounded-xl bg-white border-2 border-tweed-border focus:border-tolex focus:ring-4 focus:ring-brass/30 px-3.5 py-3 text-base sm:text-sm font-semibold text-tolex outline-none transition">
+                            <option value="메인 톤 (리듬/리프 중심)">메인 톤 (리듬/리프)</option>
+                            <option value="기타 솔로 / 리드 톤">기타 솔로 / 리드</option>
+                            <option value="클린 / 아르페지오">클린 / 아르페지오</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-3.5">
+                    <div class="md:col-span-5">
+                        <label for="outputSelect" class="block font-amp text-xs font-bold text-tolex mb-1.5 uppercase tracking-wider">
+                            Output Jack (매뉴얼 p.17-18)
+                        </label>
+                        <select id="outputSelect" class="w-full rounded-xl bg-white border-2 border-tweed-border focus:border-tolex focus:ring-4 focus:ring-brass/30 px-3.5 py-2.5 text-base sm:text-sm font-semibold text-tolex outline-none transition">
+                            <option value="FRFR_HEADPHONE">헤드폰 / 오인페 / 믹서 / FRFR (AMP ON · CAB ON)</option>
+                            <option value="AMP_RETURN">기타 앰프 FX Return / 파워앰프 (AMP ON · CAB OFF)</option>
+                            <option value="AMP_INPUT">기타 앰프 일반 INPUT 연결 (AMP OFF · CAB OFF)</option>
+                        </select>
+                    </div>
+
+                    <div class="md:col-span-7">
+                        <label for="moodInput" class="block font-amp text-xs font-bold text-tolex mb-1.5 uppercase tracking-wider">
+                            Tone Character <span class="font-sans text-neutral-500 font-medium normal-case">(선택 · 신곡/인디곡 정확도 UP)</span>
+                        </label>
+                        <input
+                            id="moodInput"
+                            type="text"
+                            placeholder="예: 몽환적인 코러스, 쫀쫀한 블루스 크런치, 빡센 하이게인 리프..."
+                            class="w-full rounded-xl bg-white border-2 border-tweed-border focus:border-tolex focus:ring-4 focus:ring-brass/30 px-4 py-2.5 text-base sm:text-sm font-semibold text-tolex placeholder-neutral-400 outline-none transition"
+                        />
+                        <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar sm:flex-wrap mt-2 pb-0.5 sm:pb-0">
+                            <button type="button" data-mood="영롱하고 깔끔한 클린 + 리버브" class="mood-chip px-2.5 py-1.5 sm:py-0.5 rounded-md bg-tweed-panel hover:bg-brass-light/60 border border-tweed-border text-xs sm:text-[11px] font-bold text-tolex shrink-0 transition">+ 영롱한 클린</button>
+                            <button type="button" data-mood="따뜻한 빈티지 크런치 오버드라이브" class="mood-chip px-2.5 py-1.5 sm:py-0.5 rounded-md bg-tweed-panel hover:bg-brass-light/60 border border-tweed-border text-xs sm:text-[11px] font-bold text-tolex shrink-0 transition">+ 빈티지 크런치</button>
+                            <button type="button" data-mood="단단하고 빡센 하이게인 메탈" class="mood-chip px-2.5 py-1.5 sm:py-0.5 rounded-md bg-tweed-panel hover:bg-brass-light/60 border border-tweed-border text-xs sm:text-[11px] font-bold text-tolex shrink-0 transition">+ 빡센 하이게인</button>
+                            <button type="button" data-mood="몽환적인 코러스와 공간계 딜레이" class="mood-chip px-2.5 py-1.5 sm:py-0.5 rounded-md bg-tweed-panel hover:bg-brass-light/60 border border-tweed-border text-xs sm:text-[11px] font-bold text-tolex shrink-0 transition">+ 몽환적 공간계</button>
+                            <button type="button" data-mood="거칠고 두꺼운 그런지/퍼즈 톤" class="mood-chip px-2.5 py-1.5 sm:py-0.5 rounded-md bg-tweed-panel hover:bg-brass-light/60 border border-tweed-border text-xs sm:text-[11px] font-bold text-tolex shrink-0 transition">+ 그런지/퍼즈</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 border-t border-tweed-border/70">
+                    <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar sm:flex-wrap pb-0.5 sm:pb-0">
+                        <span class="font-amp text-[11px] font-bold text-neutral-500 mr-1 uppercase tracking-wider shrink-0">Presets:</span>
+                        <button type="button" data-song="Nirvana - Smells Like Teen Spirit" class="quick-chip px-3 sm:px-2.5 py-1.5 sm:py-1 rounded-lg bg-tweed-panel hover:bg-brass-light/70 border border-tolex/40 text-xs font-bold text-tolex shrink-0 transition">Nirvana</button>
+                        <button type="button" data-song="John Mayer - Slow Dancing in a Burning Room" class="quick-chip px-3 sm:px-2.5 py-1.5 sm:py-1 rounded-lg bg-tweed-panel hover:bg-brass-light/70 border border-tolex/40 text-xs font-bold text-tolex shrink-0 transition">Slow Dancing</button>
+                        <button type="button" data-song="윤하 - 사건의 지평선" class="quick-chip px-3 sm:px-2.5 py-1.5 sm:py-1 rounded-lg bg-tweed-panel hover:bg-brass-light/70 border border-tolex/40 text-xs font-bold text-tolex shrink-0 transition">사건의 지평선</button>
+                        <button type="button" data-song="Metallica - Master of Puppets" class="quick-chip px-3 sm:px-2.5 py-1.5 sm:py-1 rounded-lg bg-tweed-panel hover:bg-brass-light/70 border border-tolex/40 text-xs font-bold text-tolex shrink-0 transition">Metallica</button>
+                        <button type="button" data-song="DAY6 - 한 페이지가 될 수 있게" class="quick-chip px-3 sm:px-2.5 py-1.5 sm:py-1 rounded-lg bg-tweed-panel hover:bg-brass-light/70 border border-tolex/40 text-xs font-bold text-tolex shrink-0 transition">DAY6</button>
+                    </div>
+
+                    <button
+                        id="generateBtn"
+                        type="submit"
+                        class="amp-btn w-full sm:w-auto min-h-[46px] px-6 py-3 rounded-xl bg-tolex hover:bg-tolex-light text-brass-light font-extrabold text-sm flex items-center justify-center gap-2 shrink-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <span class="w-2.5 h-2.5 rounded-full bg-jewel-red shadow-[0_0_8px_#EF4444]"></span>
+                        <span>MP-100 세팅 생성하기</span>
+                    </button>
+                </div>
+            </form>
+        </section>
+
+        <!-- 2. 로딩 상태 영역 -->
+        <section id="loadingSection" class="hidden amp-cabinet rounded-2xl p-8 text-center space-y-4">
+            <div class="flex items-center justify-center gap-3">
+                <span class="w-3.5 h-3.5 rounded-full bg-amber-500 border border-tolex shadow-[0_0_10px_#F59E0B] animate-pulse"></span>
+                <span class="w-3.5 h-3.5 rounded-full bg-orange-600 border border-tolex shadow-[0_0_10px_#EA580C] animate-pulse" style="animation-delay: 150ms;"></span>
+                <span class="w-3.5 h-3.5 rounded-full bg-amber-500 border border-tolex shadow-[0_0_10px_#F59E0B] animate-pulse" style="animation-delay: 300ms;"></span>
+            </div>
+            <div>
+                <p class="text-base font-extrabold text-tolex">진공관 예열 중... 원곡 장비와 MP-100 톤을 분석하고 있습니다</p>
+                <p class="text-xs text-neutral-500 mt-1 font-mono font-bold">Warming Up · Mapping to Hotone Ampero MP-100 (FX1 → RVB)</p>
+            </div>
+        </section>
+
+        <!-- 3. 결과 대시보드 영역 -->
+        <section id="resultSection" class="hidden space-y-5 fade-up">
+
+            <!-- 상단 패치 정보 카드 -->
+            <div class="amp-cabinet rounded-2xl overflow-hidden">
+                <div class="gold-faceplate px-5 py-2 flex flex-wrap items-center justify-between gap-2">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <span id="resPatchName" class="px-2.5 py-0.5 rounded bg-tolex text-brass-light font-mono text-xs font-extrabold tracking-wider">
+                            PATCH_NAME
+                        </span>
+                        <span id="resTuning" class="px-2 py-0.5 rounded bg-tweed-card/85 border border-tolex/40 font-mono text-[11px] font-bold text-tolex">
+                            E Standard
+                        </span>
+                        <span id="resBpm" class="px-2 py-0.5 rounded bg-tweed-card/85 border border-tolex/40 font-mono text-[11px] font-bold text-tolex">
+                            120 BPM
+                        </span>
+                    </div>
+                    <span id="resConfidenceBadge" class="px-2.5 py-0.5 rounded bg-jewel-green text-white text-[11px] font-extrabold border border-tolex-dark">
+                        원곡 장비 기반
+                    </span>
+                </div>
+
+                <div class="p-5 sm:p-6">
+                    <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                        <div class="space-y-2">
+                            <h2 id="resSongHeader" class="text-xl sm:text-2xl font-extrabold text-tolex tracking-tight">
+                                Artist - Song Title
+                            </h2>
+                            <p id="resConfidenceReason" class="text-xs font-bold text-brass-dark">
+                                신뢰도 분석 근거가 여기에 표시됩니다.
+                            </p>
+                            <p id="resToneSummary" class="text-sm font-medium text-neutral-700 leading-relaxed max-w-2xl">
+                                톤 요약 설명이 여기에 표시됩니다.
+                            </p>
+                        </div>
+
+                        <!-- 액션 버튼들 -->
+                        <div class="w-full sm:w-auto grid grid-cols-3 sm:flex items-center gap-2 shrink-0">
+                            <button id="savePatchBtn" type="button" class="amp-btn min-h-[42px] px-2.5 sm:px-3.5 py-2.5 rounded-xl bg-gradient-to-b from-brass-light to-brass hover:brightness-105 text-[11px] sm:text-xs font-extrabold text-tolex-dark flex items-center justify-center gap-1.5">
+                                <svg class="w-4 h-4 text-tolex-dark shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"/>
+                                </svg>
+                                <span>패치 저장</span>
+                            </button>
+                            <button id="saveCardImgBtn" type="button" class="amp-btn min-h-[42px] px-2.5 sm:px-3.5 py-2.5 rounded-xl bg-tolex hover:bg-tolex-light text-[11px] sm:text-xs font-extrabold text-brass-light flex items-center justify-center gap-1.5">
+                                <svg class="w-4 h-4 text-brass-light shrink-0" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                                </svg>
+                                <span>카드 저장</span>
+                            </button>
+                            <button id="copyTextBtn" type="button" class="amp-btn min-h-[42px] px-2.5 sm:px-3.5 py-2.5 rounded-xl bg-white hover:bg-tweed-panel text-[11px] sm:text-xs font-extrabold text-tolex flex items-center justify-center gap-1.5">
+                                <svg class="w-4 h-4 text-brass-dark shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                                </svg>
+                                <span>세팅 복사</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- 기타 본체 세팅 팁 -->
+                    <div class="mt-4 p-3.5 rounded-xl bg-tweed-panel border border-tweed-border flex items-start gap-3">
+                        <span class="px-1.5 py-0.5 mt-0.5 rounded bg-tolex text-brass-light font-amp text-[10px] font-bold tracking-wider uppercase shrink-0">GUITAR</span>
+                        <div class="text-xs sm:text-sm text-tolex font-medium">
+                            <span class="font-extrabold text-jewel-red mr-1.5">기타 본체 세팅 팁:</span>
+                            <span id="resGuitarTip">픽업 셀렉터 및 볼륨/톤 노브 가이드</span>
+                        </div>
+                    </div>
+
+                    <!-- 출력 환경별 MP-100 연결 및 GLOBAL 설정 가이드 -->
+                    <div id="resOutputBanner" class="mt-3 p-3.5 rounded-xl bg-white border border-brass/70 flex items-start gap-3">
+                        <span class="px-1.5 py-0.5 mt-0.5 rounded bg-brass-light text-tolex-dark border border-tolex/40 font-amp text-[10px] font-bold tracking-wider uppercase shrink-0">OUTPUT</span>
+                        <div class="text-xs sm:text-sm text-tolex font-medium">
+                            <span class="font-extrabold text-brass-dark mr-1.5">출력 환경 세팅 가이드:</span>
+                            <span id="resOutputGuide">헤드폰/오인페 연결 시 AMP와 CAB을 모두 ON으로 유지하세요.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 원곡 실제 사용 장비 참고 카드 -->
+            <div class="amp-cabinet rounded-2xl p-5 sm:p-6">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3.5 pb-2.5 border-b border-tweed-border">
+                    <div class="flex items-center gap-2.5">
+                        <span class="font-amp text-xs uppercase tracking-widest bg-tolex text-brass-light px-2.5 py-1 rounded">Original Rig</span>
+                        <h3 class="text-sm sm:text-base font-extrabold text-tolex">원곡 실제 사용 장비 참고 정보</h3>
+                    </div>
+                    <span id="resRigTag" class="text-[11px] font-bold text-neutral-500">MP-100 모델링 매핑 기준</span>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <div class="p-3.5 rounded-xl bg-tweed-panel/80 border border-tweed-border">
+                        <p class="font-amp text-[11px] font-bold text-brass-dark uppercase tracking-wider mb-1">Guitar / Pickups</p>
+                        <p id="resOrigGuitar" class="text-xs sm:text-sm font-bold text-tolex leading-snug">-</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-tweed-panel/80 border border-tweed-border">
+                        <p class="font-amp text-[11px] font-bold text-brass-dark uppercase tracking-wider mb-1">Amp / Cabinet</p>
+                        <p id="resOrigAmp" class="text-xs sm:text-sm font-bold text-tolex leading-snug">-</p>
+                    </div>
+                    <div class="p-3.5 rounded-xl bg-tweed-panel/80 border border-tweed-border">
+                        <p class="font-amp text-[11px] font-bold text-brass-dark uppercase tracking-wider mb-1">Core Pedals</p>
+                        <p id="resOrigEffects" class="text-xs sm:text-sm font-bold text-tolex leading-snug">-</p>
+                    </div>
+                </div>
+                <p id="resOrigNotes" class="mt-3 text-xs font-medium text-neutral-700 leading-relaxed bg-white px-3.5 py-2.5 rounded-lg border border-tweed-border/80">
+                    원곡 장비 참고 노트
+                </p>
+            </div>
+
+            <!-- MP-100 하드웨어 특화 & 연습 세팅 카드 -->
+            <div class="amp-cabinet rounded-2xl p-5 sm:p-6">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3.5 pb-2.5 border-b border-tweed-border">
+                    <div class="flex items-center gap-2.5">
+                        <span class="font-amp text-xs uppercase tracking-widest bg-tolex text-brass-light px-2.5 py-1 rounded">Hardware &amp; Practice</span>
+                        <h3 class="text-sm sm:text-base font-extrabold text-tolex">MP-100 물리 컨트롤 &amp; 드럼 머신 추천</h3>
+                    </div>
+                    <span class="text-[11px] font-mono font-bold text-neutral-500">MANUAL p.7 · p.10 · p.39-41</span>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                    <div class="p-3.5 rounded-xl bg-tweed-panel/80 border border-tweed-border flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-1.5">
+                                <span class="font-amp text-[11px] font-bold text-brass-dark uppercase tracking-wider">EXP 1 Pedal</span>
+                                <span class="px-1.5 py-0.5 rounded bg-tolex text-brass-light font-mono text-[10px] font-bold">CTRL/EXP</span>
+                            </div>
+                            <p id="resExp1" class="text-xs sm:text-sm font-bold text-tolex leading-snug">-</p>
+                        </div>
+                        <p class="text-[11px] font-medium text-neutral-500 mt-2">내장 익스프레션 페달 타겟 추천</p>
+                    </div>
+
+                    <div class="p-3.5 rounded-xl bg-tweed-panel/80 border border-tweed-border flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-1.5">
+                                <span class="font-amp text-[11px] font-bold text-brass-dark uppercase tracking-wider">CTRL Footswitch</span>
+                                <span class="px-1.5 py-0.5 rounded bg-tolex text-brass-light font-mono text-[10px] font-bold">TAP / HOLD</span>
+                            </div>
+                            <p id="resCtrl" class="text-xs sm:text-sm font-bold text-tolex leading-snug">-</p>
+                        </div>
+                        <p class="text-[11px] font-medium text-neutral-500 mt-2">라이브 파트 전환 · 탭 템포 추천</p>
+                    </div>
+
+                    <div class="p-3.5 rounded-xl bg-tweed-panel/80 border border-tweed-border flex flex-col justify-between">
+                        <div>
+                            <div class="flex items-center justify-between gap-2 mb-1.5">
+                                <span class="font-amp text-[11px] font-bold text-brass-dark uppercase tracking-wider">Drum Machine</span>
+                                <span id="resDrumBadge" class="px-1.5 py-0.5 rounded bg-jewel-green text-white font-mono text-[10px] font-bold">4/4 · 120 BPM</span>
+                            </div>
+                            <p id="resDrumPattern" class="text-xs sm:text-sm font-extrabold text-tolex leading-snug">-</p>
+                        </div>
+                        <p id="resDrumNote" class="text-[11px] font-medium text-neutral-600 mt-2">연습용 내장 리듬 패턴</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MP-100 9모듈 시그널 체인 바 -->
+            <div class="amp-cabinet rounded-2xl p-4 sm:p-5">
+                <div class="flex flex-wrap items-center justify-between gap-2 mb-3.5">
+                    <div class="flex items-center gap-2">
+                        <span class="font-amp text-xs uppercase tracking-widest bg-tolex text-brass-light px-2.5 py-1 rounded">Signal Chain</span>
+                        <span class="text-[11px] font-semibold text-neutral-500 hidden sm:inline">· 모듈을 클릭해 세부 노브를 확인하세요</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-[11px]">
+                        <button id="filterActiveBtn" type="button" class="px-2.5 py-1 rounded-lg bg-tolex text-brass-light border border-tolex font-bold transition">
+                            ON 모듈만 보기
+                        </button>
+                        <button id="filterAllBtn" type="button" class="px-2.5 py-1 rounded-lg bg-white text-neutral-600 border border-tweed-border font-bold hover:bg-tweed-panel transition">
+                            전체 9개 보기
+                        </button>
+                    </div>
+                </div>
+
+                <div id="signalChainBar" class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1.5 pt-0.5 px-0.5">
+                </div>
+            </div>
+
+            <!-- 모듈별 상세 파라미터 카드 그리드 -->
+            <div id="modulesGrid" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            </div>
+        </section>
+
+        <!-- 초기 빈 상태 안내 카드 -->
+        <section id="emptyStateSection" class="amp-cabinet rounded-2xl p-8 sm:p-10 text-center space-y-4">
+            <div class="inline-flex items-center gap-3 px-4 py-2 rounded-xl bg-tolex border-2 border-brass shadow-sm">
+                <span class="jewel-lamp w-3 h-3 rounded-full"></span>
+                <span class="font-amp text-xs sm:text-sm tracking-[0.2em] uppercase text-brass-light font-bold">STANDBY · READY TO PLAY</span>
+                <span class="brass-screw"></span>
+            </div>
+            <h3 class="text-lg sm:text-xl font-extrabold text-tolex">연주하고 싶은 곡을 입력해 보세요!</h3>
+            <p class="text-xs sm:text-sm font-medium text-neutral-600 max-w-md mx-auto leading-relaxed">
+                곡명과 아티스트를 입력하면 <strong class="text-tolex bg-brass-light/50 px-1.5 py-0.5 rounded">Hotone Ampero MP-100</strong> 공식 매뉴얼(V3.0)에 탑재된 앰프, 캐비넷, 드라이브, 공간계 모델명과 노브 수치를 한눈에 볼 수 있게 세팅해 드립니다.
+            </p>
+        </section>
+
+        <!-- 4. 하단 앱 공유 패널 -->
+        <section id="shareSection" class="amp-cabinet rounded-2xl overflow-hidden">
+            <div class="gold-faceplate px-5 py-2.5 flex items-center justify-between gap-2">
+                <div class="flex items-center gap-2.5">
+                    <span class="brass-screw hidden sm:inline-block"></span>
+                    <span class="font-amp text-xs font-bold uppercase tracking-widest text-tolex-dark">LINE OUT · SHARE APP</span>
+                </div>
+                <div class="flex items-center gap-2.5">
+                    <span class="font-mono text-[11px] font-bold text-tolex-dark">BAND &amp; COMMUNITY SHARE</span>
+                    <span class="brass-screw hidden sm:inline-block"></span>
+                </div>
+            </div>
+
+            <div class="p-5 sm:p-6 space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                        <h3 class="text-base sm:text-lg font-extrabold text-tolex">이 앱을 밴드 멤버나 기타 커뮤니티에 공유해 보세요</h3>
+                        <p class="text-xs sm:text-sm font-medium text-neutral-600 mt-0.5">
+                            MP-100을 사용하는 친구에게 링크를 보내거나, 추천 문구와 함께 단톡방에 바로 공유할 수 있습니다.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+                    <div class="flex-1 flex items-center bg-white border-2 border-tweed-border rounded-xl px-3.5 py-2.5 min-w-0">
+                        <span class="font-amp text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded bg-tweed-panel text-brass-dark border border-tweed-border mr-2.5 shrink-0">URL</span>
+                        <input
+                            id="shareUrlInput"
+                            type="text"
+                            readonly
+                            aria-label="공유할 앱 주소"
+                            class="w-full bg-transparent font-mono text-xs sm:text-sm font-bold text-tolex outline-none truncate"
+                        />
+                    </div>
+                    <button
+                        id="copyAppLinkBtn"
+                        type="button"
+                        class="amp-btn px-5 py-2.5 rounded-xl bg-tolex hover:bg-tolex-light text-brass-light text-xs sm:text-sm font-extrabold flex items-center justify-center gap-2 shrink-0"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"/>
+                        </svg>
+                        <span>링크 복사</span>
+                    </button>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 pt-1">
+                    <button
+                        id="copyShareMsgBtn"
+                        type="button"
+                        class="amp-btn px-4 py-2.5 rounded-xl bg-gradient-to-b from-brass-light to-brass hover:brightness-105 text-tolex-dark text-xs font-extrabold flex items-center justify-center gap-2"
+                    >
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
+                        </svg>
+                        <span>초대 문구 + 링크 복사</span>
+                    </button>
+
+                    <button
+                        id="nativeShareBtn"
+                        type="button"
+                        class="amp-btn px-4 py-2.5 rounded-xl bg-white hover:bg-tweed-panel text-tolex text-xs font-extrabold flex items-center justify-center gap-2"
+                    >
+                        <svg class="w-4 h-4 text-brass-dark" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 12v7a2 2 0 002 2h12a2 2 0 002-2v-7M16 6l-4-4m0 0L8 6m4-4v13"/>
+                        </svg>
+                        <span>기기에서 바로 공유</span>
+                    </button>
+
+                    <button
+                        id="shareXBtn"
+                        type="button"
+                        class="amp-btn px-4 py-2.5 rounded-xl bg-white hover:bg-tweed-panel text-tolex text-xs font-extrabold flex items-center justify-center gap-2"
+                    >
+                        <svg class="w-3.5 h-3.5 text-tolex" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                        </svg>
+                        <span>X(트위터)로 공유</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- 저장된 패치북 모달 -->
+    <div id="savedModal" class="hidden fixed inset-0 z-50 bg-tolex-dark/65 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="w-full max-w-lg rounded-2xl bg-tweed-card border-2 border-tolex shadow-2xl overflow-hidden flex flex-col max-h-[82vh]">
+            <div class="gold-faceplate px-5 py-3.5 flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <span class="brass-screw"></span>
+                    <h3 class="font-amp text-base font-bold tracking-wide uppercase text-tolex-dark">내 MP-100 패치북</h3>
+                    <span id="syncStatusPill" class="px-2 py-0.5 rounded bg-tolex text-brass-light text-[10px] font-mono font-bold">클라우드 연결 중</span>
+                </div>
+                <button id="closeSavedBtn" type="button" class="p-1.5 rounded-lg bg-tweed-card border border-tolex hover:bg-white text-tolex transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <div id="savedListContainer" class="p-4 overflow-y-auto space-y-2.5 flex-1">
+            </div>
+        </div>
+    </div>
+
+    <!-- 계정 로그인 / 회원가입 모달 -->
+    <div id="authModal" class="hidden fixed inset-0 z-50 bg-tolex-dark/65 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="w-full max-w-md rounded-2xl bg-tweed-card border-2 border-tolex shadow-2xl overflow-hidden">
+            <div class="tolex-bar px-5 py-3.5 flex items-center justify-between">
+                <div class="flex items-center gap-2.5">
+                    <span class="jewel-lamp w-3 h-3 rounded-full"></span>
+                    <h3 class="font-amp text-base font-bold tracking-wider uppercase text-brass-light">내 패치북 계정</h3>
+                </div>
+                <button id="closeAuthBtn" type="button" class="p-1.5 rounded-lg bg-tolex-light border border-brass/50 hover:bg-[#46392E] text-tweed-card transition">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="p-5 space-y-4">
+                <!-- 현재 연결된 계정 상태 박스 -->
+                <div class="p-3.5 rounded-xl bg-tweed-panel border border-tweed-border space-y-2">
+                    <div class="flex items-center justify-between gap-2">
+                        <span id="accountTypeBadge" class="px-2 py-0.5 rounded bg-brass-light border border-tolex/40 text-[11px] font-extrabold text-tolex-dark">
+                            게스트 세션
+                        </span>
+                        <button id="logoutBtn" type="button" class="hidden px-2.5 py-1 rounded-lg bg-white border border-jewel-red/40 text-[11px] font-extrabold text-jewel-red hover:bg-rose-50 transition">
+                            로그아웃
+                        </button>
+                    </div>
+                    <p id="accountIdentityText" class="text-xs font-mono font-bold text-tolex truncate">연결 확인 중...</p>
+                    <p id="accountHelpText" class="text-[11px] font-medium text-neutral-600 leading-relaxed">
+                        이메일 또는 Google 계정으로 로그인하면 다른 기기에서도 내 패치북을 불러올 수 있습니다.
+                    </p>
+                </div>
+
+                <!-- Google 간편 로그인 + 이메일 로그인/회원가입 -->
+                <div id="authFormWrapper" class="space-y-4">
+                    <button id="googleLoginBtn" type="button" class="amp-btn w-full py-2.5 px-4 rounded-xl bg-white hover:bg-tweed-panel text-tolex font-extrabold text-sm flex items-center justify-center gap-2.5 disabled:opacity-50">
+                        <svg class="w-4 h-4 shrink-0" viewBox="0 0 24 24" aria-hidden="true">
+                            <path fill="#4285F4" d="M23.49 12.27c0-.79-.07-1.54-.2-2.27H12v4.51h6.45a5.52 5.52 0 01-2.39 3.62v3h3.87c2.26-2.08 3.56-5.15 3.56-8.86z"/>
+                            <path fill="#34A853" d="M12 24c3.24 0 5.95-1.07 7.93-2.9l-3.87-3c-1.07.72-2.44 1.15-4.06 1.15-3.12 0-5.77-2.11-6.72-4.95H1.28v3.1A12 12 0 0012 24z"/>
+                            <path fill="#FBBC05" d="M5.28 14.3A7.22 7.22 0 014.9 12c0-.8.14-1.58.38-2.3V6.6H1.28A12 12 0 000 12c0 1.94.46 3.77 1.28 5.4l4-3.1z"/>
+                            <path fill="#EA4335" d="M12 4.75c1.76 0 3.34.61 4.59 1.8l3.44-3.44C17.94 1.19 15.23 0 12 0A12 12 0 001.28 6.6l4 3.1c.95-2.84 3.6-4.95 6.72-4.95z"/>
+                        </svg>
+                        <span>Google 계정으로 계속하기</span>
+                    </button>
+
+                    <div class="flex items-center gap-3">
+                        <div class="flex-1 h-px bg-tweed-border"></div>
+                        <span class="font-amp text-[10px] font-bold uppercase tracking-widest text-neutral-500">OR EMAIL</span>
+                        <div class="flex-1 h-px bg-tweed-border"></div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 p-1 rounded-xl bg-tweed-panel border border-tweed-border">
+                        <button id="tabLoginBtn" type="button" class="py-2 rounded-lg bg-tolex text-brass-light font-extrabold text-xs transition">
+                            로그인
+                        </button>
+                        <button id="tabSignupBtn" type="button" class="py-2 rounded-lg bg-transparent text-neutral-600 hover:text-tolex font-bold text-xs transition">
+                            회원가입
+                        </button>
+                    </div>
+
+                    <form id="authForm" class="space-y-3">
+                        <div>
+                            <label for="authEmail" class="block text-xs font-bold text-tolex mb-1">이메일</label>
+                            <input id="authEmail" type="email" required placeholder="guitarist@example.com" class="w-full rounded-xl bg-white border-2 border-tweed-border focus:border-tolex focus:ring-4 focus:ring-brass/30 px-3.5 py-2.5 text-base sm:text-sm font-semibold text-tolex outline-none" />
+                        </div>
+                        <div>
+                            <label for="authPassword" class="block text-xs font-bold text-tolex mb-1">비밀번호 (6자 이상)</label>
+                            <input id="authPassword" type="password" required minlength="6" placeholder="••••••••" class="w-full rounded-xl bg-white border-2 border-tweed-border focus:border-tolex focus:ring-4 focus:ring-brass/30 px-3.5 py-2.5 text-base sm:text-sm font-semibold text-tolex outline-none" />
+                        </div>
+                        <p id="authErrorMsg" class="hidden text-xs font-bold text-jewel-red bg-rose-50 border border-jewel-red/30 rounded-lg px-3 py-2"></p>
+                        <button id="authSubmitBtn" type="submit" class="amp-btn w-full py-3 rounded-xl bg-tolex hover:bg-tolex-light text-brass-light font-extrabold text-sm disabled:opacity-50">
+                            이메일로 로그인
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 모바일 전용 하단 퀵 액션 바 (결과 표시 시 활성화) -->
+    <div id="mobileQuickBar" class="hidden md:hidden fixed bottom-0 inset-x-0 z-40 bg-tolex border-t-2 border-brass px-3 py-2 shadow-2xl">
+        <div class="max-w-lg mx-auto grid grid-cols-4 gap-1.5">
+            <button id="mobileTopBtn" type="button" class="py-2 px-1.5 rounded-lg bg-tolex-light border border-brass/40 text-tweed-card text-[11px] font-extrabold flex items-center justify-center gap-1 active:scale-95 transition">
+                <span>↑ 맨위로</span>
+            </button>
+            <button id="mobileSaveBtn" type="button" class="py-2 px-1.5 rounded-lg bg-gradient-to-b from-brass-light to-brass text-tolex-dark text-[11px] font-extrabold flex items-center justify-center gap-1 active:scale-95 transition">
+                <span>패치 저장</span>
+            </button>
+            <button id="mobileImgBtn" type="button" class="py-2 px-1.5 rounded-lg bg-tweed-card text-tolex text-[11px] font-extrabold flex items-center justify-center gap-1 active:scale-95 transition">
+                <span>카드 저장</span>
+            </button>
+            <button id="mobileCopyBtn" type="button" class="py-2 px-1.5 rounded-lg bg-tweed-card text-tolex text-[11px] font-extrabold flex items-center justify-center gap-1 active:scale-95 transition">
+                <span>세팅 복사</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 커스텀 토스트 메시지 -->
+    <div id="toast" class="fixed bottom-20 md:bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-all duration-300 translate-y-3 w-[90vw] max-w-sm">
+        <div id="toastInner" class="px-4 py-2.5 rounded-xl bg-tolex border-2 border-brass text-tweed-card text-xs sm:text-sm font-bold shadow-xl flex items-center justify-center gap-2.5">
+            <span id="toastIcon" class="w-2.5 h-2.5 rounded-full bg-jewel-green shrink-0"></span>
+            <span id="toastMsg" class="truncate">메시지</span>
+        </div>
+    </div>
+
+    <!-- 커스텀 토스트 메시지 -->
+    <div id="toast" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-all duration-300 translate-y-3">
+        <div id="toastInner" class="px-4 py-2.5 rounded-xl bg-tolex border-2 border-brass text-tweed-card text-xs sm:text-sm font-bold shadow-xl flex items-center gap-2.5">
+            <span id="toastIcon" class="w-2.5 h-2.5 rounded-full bg-jewel-green shrink-0"></span>
+            <span id="toastMsg">메시지</span>
+        </div>
+    </div>
+
+    <!-- 푸터 -->
+    <footer class="border-t border-tweed-border py-5 text-center text-xs font-bold text-neutral-600">
+        TONE LAB · Vintage Tube Amp Edition for Hotone Ampero MP-100 · Powered by Gemini AI
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import {
+            getAuth,
+            signInAnonymously,
+            signInWithCustomToken,
+            signInWithEmailAndPassword,
+            createUserWithEmailAndPassword,
+            GoogleAuthProvider,
+            signInWithPopup,
+            signOut,
+            onAuthStateChanged
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import {
+            getFirestore,
+            collection,
+            addDoc,
+            deleteDoc,
+            doc,
+            onSnapshot
+        } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // ============================================================
+        // 1. 환경 설정, 상태 관리 및 MP-100 공식 매뉴얼(V3.0) 상수
+        // ============================================================
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'mp100-tone-lab';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+        const STORAGE_KEY = 'mp100_saved_patches_v1';
+
+        let app = null;
+        let auth = null;
+        let db = null;
+        let currentUser = null;
+        let useCloudStorage = false;
+        let unsubscribePatches = null;
+        let authMode = 'login';
+
+        let currentPatch = null;
+        let basePatchBeforeOutput = null;
+        let selectedSlot = null;
+        let showOnlyActive = true;
+        let savedPatches = [];
+
+        const MODULE_COLORS = {
+            FX1: { accent: '#B45309', dot: 'bg-amber-600', chipBg: 'bg-amber-50', badge: 'bg-amber-700 text-white' },
+            FX2: { accent: '#B91C1C', dot: 'bg-red-600', chipBg: 'bg-red-50', badge: 'bg-red-700 text-white' },
+            AMP: { accent: '#9A7426', dot: 'bg-yellow-600', chipBg: 'bg-yellow-50', badge: 'bg-tolex text-brass-light' },
+            NR:  { accent: '#4B5563', dot: 'bg-neutral-600', chipBg: 'bg-neutral-100', badge: 'bg-neutral-700 text-white' },
+            CAB: { accent: '#7C2D12', dot: 'bg-orange-800', chipBg: 'bg-orange-50', badge: 'bg-orange-900 text-amber-100' },
+            EQ:  { accent: '#1D4ED8', dot: 'bg-blue-600', chipBg: 'bg-blue-50', badge: 'bg-blue-800 text-white' },
+            FX3: { accent: '#047857', dot: 'bg-emerald-600', chipBg: 'bg-emerald-50', badge: 'bg-emerald-800 text-white' },
+            DLY: { accent: '#6D28D9', dot: 'bg-violet-600', chipBg: 'bg-violet-50', badge: 'bg-violet-800 text-white' },
+            RVB: { accent: '#0F766E', dot: 'bg-teal-600', chipBg: 'bg-teal-50', badge: 'bg-teal-800 text-white' }
+        };
+
+        const CONFIDENCE_STYLES = {
+            ORIGINAL_RIG: {
+                label: '원곡 장비 기반',
+                badgeClass: 'px-2.5 py-0.5 rounded bg-jewel-green text-white text-[11px] font-extrabold border border-tolex-dark',
+                rigTag: '실제 레코딩/라이브 장비 자료 기반 매핑'
+            },
+            ARTIST_STYLE: {
+                label: '아티스트 스타일 추정',
+                badgeClass: 'px-2.5 py-0.5 rounded bg-brass-light text-tolex-dark text-[11px] font-extrabold border border-tolex-dark',
+                rigTag: '아티스트 주력 장비 및 톤 성향 기반 매핑'
+            },
+            GENRE_ESTIMATE: {
+                label: '일반 장르 추천',
+                badgeClass: 'px-2.5 py-0.5 rounded bg-amber-600 text-white text-[11px] font-extrabold border border-tolex-dark',
+                rigTag: '장르 특성 및 입력된 분위기 키워드 기반 매핑'
+            }
+        };
+
+        const OUTPUT_GUIDES = {
+            FRFR_HEADPHONE: {
+                label: '헤드폰 / 오인페 / 믹서 / FRFR',
+                guide: '매뉴얼 p.18 권장: 헤드폰/오디오 인터페이스/FRFR 연결 시 AMP와 CAB 모듈을 모두 ON으로 두고, GLOBAL > I/O의 BAL 출력은 Line으로 설정하세요.'
+            },
+            AMP_RETURN: {
+                label: '기타 앰프 FX Return / 파워앰프',
+                guide: '매뉴얼 p.17 권장: 실물 앰프의 FX Return 또는 파워앰프 입력 연결 시 실물 스피커와 겹치지 않도록 CAB 모듈을 OFF(또는 GLOBAL > No Cab Mode ON) 하세요.'
+            },
+            AMP_INPUT: {
+                label: '기타 앰프 일반 INPUT 연결',
+                guide: '매뉴얼 p.17 권장: 기타 앰프 앞단 INPUT에 연결할 때는 MP-100의 AMP와 CAB 모듈을 모두 OFF 하고, 드라이브/공간계 페달보드처럼 사용하세요.'
+            }
+        };
+
+        const MP100_OFFICIAL_MODELS = `[Hotone Ampero MP-100 공식 매뉴얼(Firmware V3.0) 탑재 모델명]
+- FX1/FX2/FX3 Dynamic: Comprosso (Ross Comp), Comparoma 4 (Keeley C4), Blue Sustainer, Squeezer, Affinity Boost (Xotic AC), Beefy Boost (Xotic BB), Pristine Boost (Xotic RC), FET Boost, Enhancer (Xotic EP)
+- FX1/FX2/FX3 Freq/Wah/Pitch: Acoustic Refiner, AC Sim, Toucher, Crier, Voxy Wah (VOX V846), Cry Wah (CryBaby), Soul Press, Clean Octa, Dirty Octa, Harmony, Satisfaction
+- FX1/FX2/FX3 Overdrive/Distortion: Green Drive (TS-808), Yellow Drive (DOD250), Swarm Drive, Super Drive (SD-1), Screamood, Dr. Blues (BD-2), Force Drive (Fulltone OCD), Tube Clipper, Zen Garden (Zendrive), Direct Touch, Big Pie (Big Muff Pi), Face Fuzz (Fuzz Face), Bend Fuzz, Black Tail (ProCo RAT), Plustortion (MXR Dist+), Smooth Dist (Boss DS-1), Governor (Marshall Guv'Nor), Crunchist, Purple Plexi, Panama Lead
+- FX1/FX2/FX3 Modulation: Aozora Chorus, Grand Choruium (CE-1), Liquid C (Dimension C), Aquaria M, Detune, Jetter, Pulser, Grand Vibrato, 90 Phaser (Phase 90), Green Phaser, Minivibe, Revolver (Uni-Vibe), Helicopter (Tremolo), Custom Trem
+- AMP Clean: Tweed Lux (Fender 5E3), Baseman Norm ('59 Bassman), Black Twin ('65 Twin Reverb), Voxy 30HW Norm (VOX AC30HW), Superb Dual Clean, Jazz Clean (JC-120), Emperor Clean (Matchless), Superstar Clean (Mesa Lone Star), Glacian Clean (Bogner Shiva), Dr. 38 Clean, Hot Kitty Clean, Soloist 100 Clean
+- AMP Drive: Baseman Bright, Voxy 30HW TB (AC30 Top Boost), Superb Dual Drive, Emperor Drive, Dr. 38 Drive, Superstar Drive, Marshell 45 (JTM45), Marshell 45+, Marshell 50 (JMP50), Marshell 50+, Hot Kitty Drive, Messe IIC+ 1 (Mark IIC+), Messe IIC+ 2, Soloist 100 Crunch (SLO100), Marshell 800 (JCM800), Fryman B1 (Friedman BE), Glacian Drive
+- AMP HiGain: Marshell 900 (JCM900), Dizzle VH B (Diezel VH4), Engle Saga 1, Powerengle Lead, Fryman HB (Friedman HBE), Eddie 51 (Peavey 5150), Soloist 100 Lead, Messe IV Lead 1 (Mark IV), Tangerine R100 (Orange Rockerverb), Rector Dual V (Dual Rectifier Vintage), Rector Dual M (Dual Rectifier Modern), Boger XT Blue M, Boger XT Red M
+- NR: Smart Gate (ISP Decimator), Fast Gate, Custom Gate
+- CAB: Tweed Lux 1x12, Black Lux 1x12, Voxy 1x12, Voxy 2x12, Jazz Twin 2x12, Black Twin 2x12, UK Green 2x12, Baseman 4x10, UK Lead 4x12 (Marshall 1960AV), UK Green 4x12, UK Modern 4x12, Eddie 4x12, Rector 4x12, Boger 4x12, Engle 4x12, Tang 4x12 (Orange PPC412), UK T75 4x12
+- CAB Mic: OFF, Dyn 57 (SM57), Dyn 58, Dyn 421 (MD421), Dyn 609, Con U67, Con U87, Rib 121 (Royer R121)
+- EQ: Guitar EQ 1, Guitar EQ 2, Para EQ, Graphic EQ, V-EQ (Mesa 5-Band EQ)
+- DLY: Sweetie, Recaller (Memory Man), Pure Eko, Analog Eko, Ekopress 80, Mag Eko, Tube Eko, Dual Eko, Ping Pong, Multi Head, Slapback, Vintage Rack, Ekoverb
+- RVB: Hall, Church, Plate, Spring, Izumi, Northstar, Oceandeep, Sweet Space, Shimmer`;
+
+        const MP100_DRUM_PATTERNS = `[Hotone Ampero MP-100 내장 드럼 머신 리듬 번호 (매뉴얼 p.39-41)]
+- 8 Beat (4/4): #0 8-Beat 1 ~ #9 8-Beat 10
+- 16 Beat (4/4): #10 16-Beat 1 ~ #19 16-Beat 10
+- 4 Beat (4/4): #20 4-Beat 1 ~ #29 4-Beat 10
+- Rock (4/4): #30 Roots, #31 Classic Rock, #32 Pop Rock, #33 Slow Rock, #34 Rock Shuffle, #35 Rock Ballad, #36 Punk, #37 New Wave, #38 Hard Rock, #39 Metal
+- Funk/Soul (4/4): #40 Funk, #41 Funk Rock, #42 Electro Funk, #43 Soul, #44 R&B
+- Jazz (4/4): #45 Jazz, #46 Big Band, #47 Fusion, #48 Swing, #49 Dixieland
+- Blues/Country: #50 Blues (4/4), #51 Country (4/4), #52 Folk (4/4), #53 Rockabilly (4/4), #54 Bluegrass (2/4)
+- Latin: #55 Bossa nova, #56 Rumba, #57 Samba, #58 Cha Cha, #59 Tango, #60 Reggae, #62 Latin Pop, #63 Latin Rock
+- Electronic: #65 Hip Hop, #66 Trip Hop, #67 Techno, #68 Break Beat, #69 Drum n' Bass
+- World/Odd: #70 Waltz (3/4), #77 Ska (4/4), #80 3/4 Beat1 (3/4), #82 6/8 Beat1 (6/8), #84 Beat 5/4 (5/4), #93 Metronome 4/4 (4/4)`;
+
+        // ============================================================
+        // 2. DOM 요소 참조 및 커스텀 토스트 알림
+        // ============================================================
+        const toneForm = document.getElementById('toneForm');
+        const songInput = document.getElementById('songInput');
+        const pickupSelect = document.getElementById('pickupSelect');
+        const partSelect = document.getElementById('partSelect');
+        const outputSelect = document.getElementById('outputSelect');
+        const moodInput = document.getElementById('moodInput');
+        const generateBtn = document.getElementById('generateBtn');
+        const emptyStateSection = document.getElementById('emptyStateSection');
+        const loadingSection = document.getElementById('loadingSection');
+        const resultSection = document.getElementById('resultSection');
+        const signalChainBar = document.getElementById('signalChainBar');
+        const modulesGrid = document.getElementById('modulesGrid');
+        const filterActiveBtn = document.getElementById('filterActiveBtn');
+        const filterAllBtn = document.getElementById('filterAllBtn');
+
+        let toastTimer = null;
+        function showToast(msg, type = 'success') {
+            const toast = document.getElementById('toast');
+            const toastIcon = document.getElementById('toastIcon');
+            const toastMsg = document.getElementById('toastMsg');
+
+            toastMsg.textContent = msg;
+            if (type === 'error') {
+                toastIcon.className = 'w-2.5 h-2.5 rounded-full bg-jewel-red shrink-0';
+            } else if (type === 'info') {
+                toastIcon.className = 'w-2.5 h-2.5 rounded-full bg-brass-light shrink-0';
+            } else {
+                toastIcon.className = 'w-2.5 h-2.5 rounded-full bg-jewel-green shrink-0';
+            }
+
+            toast.classList.remove('opacity-0', 'translate-y-3');
+            toast.classList.add('opacity-100', 'translate-y-0');
+
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(() => {
+                toast.classList.remove('opacity-100', 'translate-y-0');
+                toast.classList.add('opacity-0', 'translate-y-3');
+            }, 2600);
+        }
+
+        // ============================================================
+        // 3. 내장 인기 곡 프리셋 및 출력 환경 보정
+        // ============================================================
+        function applyOutputModeToPatch(rawPatch, outputMode, moodNote = '') {
+            const patch = JSON.parse(JSON.stringify(rawPatch));
+            const slotOrder = ["FX1", "FX2", "AMP", "NR", "CAB", "EQ", "FX3", "DLY", "RVB"];
+            const modMap = new Map((patch.modules || []).map(m => [m.slot, m]));
+
+            patch.modules = slotOrder.map(slot => {
+                const mod = modMap.get(slot) || {
+                    slot,
+                    enabled: false,
+                    category: slot,
+                    modelName: 'OFF',
+                    basedOn: '-',
+                    tip: '',
+                    params: []
+                };
+
+                if (outputMode === 'AMP_RETURN' && slot === 'CAB') {
+                    mod.enabled = false;
+                    mod.modelName = 'OFF';
+                    mod.params = [];
+                    mod.tip = '기타 앰프 FX Return 연결 시 실물 스피커 캐비넷과 겹치지 않도록 CAB 모듈을 OFF 합니다. (매뉴얼 p.17)';
+                }
+                if (outputMode === 'AMP_INPUT' && (slot === 'AMP' || slot === 'CAB')) {
+                    mod.enabled = false;
+                    mod.modelName = 'OFF';
+                    mod.params = [];
+                    mod.tip = '기타 앰프 일반 INPUT 연결 시 실물 앰프의 톤을 살리기 위해 AMP/CAB 모듈을 OFF 합니다. (매뉴얼 p.17)';
+                }
+
+                return mod;
+            });
+
+            patch.outputMode = outputMode;
+            patch.moodNote = moodNote;
+            return patch;
+        }
+
+        const BUILTIN_PRESETS = {
+            "nirvana - smells like teen spirit": {
+                songTitle: "Smells Like Teen Spirit",
+                artist: "Nirvana",
+                patchName: "TEEN_SPIRIT",
+                tuning: "E Standard",
+                bpm: 117,
+                confidenceLevel: "ORIGINAL_RIG",
+                confidenceReason: "커트 코베인의 Nevermind 레코딩 장비(Fender/Mesa 클린 + Boss DS-1 + EHX Small Clone) 자료 기반 세팅입니다.",
+                originalGear: {
+                    guitar: "1969 Fender Competition Mustang / Jaguar (브릿지 험버커)",
+                    amp: "Mesa/Boogie Studio Preamp + Crown Power Amp / Fender Bassman & Twin",
+                    effects: "Boss DS-1 Distortion, Electro-Harmonix Small Clone Chorus",
+                    notes: "클린 앰프 베이스 위에 DS-1(Smooth Dist)으로 거친 그런지 디스토션을 얹고, 프리코러스/솔로에서 코러스를 켜는 구성입니다."
+                },
+                toneSummary: "단단한 펜더 계열 클린 앰프 위에 Boss DS-1 스타일의 거칠고 직선적인 그런지 디스토션을 얹은 시그니처 톤입니다. 인트로 클린과 코러스 전환 시 FX2(Smooth Dist)만 껐다 켜서 연주하세요.",
+                guitarTip: "브릿지 험버커 픽업, 기타 볼륨 10, 톤 노브 8~10 유지. 인트로 클린 파트에서는 FX2를 끄고 연주하세요.",
+                hardwareSetup: {
+                    exp1: "Volume Pedal (0 → 100) 또는 솔로 구간 AMP Master 60 → 70 부스트",
+                    ctrl: "FX2(Smooth Dist) ON/OFF 지정 — 인트로 클린에서 후렴 그런지로 즉시 전환",
+                    drum: { number: 38, name: "Hard Rock", timeSig: "4/4", bpm: 117, note: "강한 백비트 스네어로 메인 리프와 후렴 다이내믹 연습에 적합합니다." }
+                },
+                modules: [
+                    { slot: "FX1", enabled: false, category: "Dynamic", modelName: "OFF", basedOn: "-", tip: "", params: [] },
+                    { slot: "FX2", enabled: true, category: "Distortion", modelName: "Smooth Dist", basedOn: "Boss DS-1", tip: "그런지 사운드의 핵심. 클린 인트로에서는 CTRL 스위치로 끄고, 후렴에서 켜세요.", params: [{ name: "Gain", value: 82, displayValue: "82" }, { name: "Tone", value: 58, displayValue: "58" }, { name: "Volume", value: 65, displayValue: "65" }] },
+                    { slot: "AMP", enabled: true, category: "Clean Amp", modelName: "Black Twin", basedOn: "Fender '65 Twin Reverb", tip: "페달을 잘 받아주는 헤드룸 넓은 클린 앰프 베이스입니다.", params: [{ name: "Gain", value: 35, displayValue: "35" }, { name: "Master", value: 60, displayValue: "60" }, { name: "Bass", value: 55, displayValue: "55" }, { name: "Middle", value: 45, displayValue: "45" }, { name: "Treble", value: 65, displayValue: "65" }] },
+                    { slot: "NR", enabled: true, category: "Noise Gate", modelName: "Smart Gate", basedOn: "ISP Decimator", tip: "하이게인 디스토션의 휴지부 잡음을 깔끔하게 정리합니다.", params: [{ name: "Threshold", value: 32, displayValue: "32" }] },
+                    { slot: "CAB", enabled: true, category: "Cabinet", modelName: "Black Twin 2x12", basedOn: "Fender '65 Twin 2x12", tip: "SM57(Dyn 57) 마이크로 펀치감 있는 중음을 살립니다.", params: [{ name: "Mic", value: 50, displayValue: "Dyn 57" }, { name: "Volume", value: 55, displayValue: "55" }] },
+                    { slot: "EQ", enabled: false, category: "EQ", modelName: "OFF", basedOn: "-", tip: "", params: [] },
+                    { slot: "FX3", enabled: true, category: "Modulation", modelName: "Aozora Chorus", basedOn: "80s Stereo Chorus", tip: "프리코러스와 솔로의 물결치는 Small Clone 느낌을 재현합니다. 메인 리프에서는 OFF 권장.", params: [{ name: "Depth", value: 58, displayValue: "58" }, { name: "Rate", value: 36, displayValue: "36" }, { name: "Tone", value: 52, displayValue: "52" }] },
+                    { slot: "DLY", enabled: false, category: "Delay", modelName: "OFF", basedOn: "-", tip: "", params: [] },
+                    { slot: "RVB", enabled: true, category: "Reverb", modelName: "Hall", basedOn: "Hall Reverb", tip: "스튜디오 룸 공간감만 살짝 더해줍니다.", params: [{ name: "Mix", value: 18, displayValue: "18" }, { name: "Pre Delay", value: 15, displayValue: "15ms" }, { name: "Decay", value: 32, displayValue: "32" }] }
+                ]
+            },
+            "john mayer - slow dancing in a burning room": {
+                songTitle: "Slow Dancing in a Burning Room",
+                artist: "John Mayer",
+                patchName: "SLOW_DANCE",
+                tuning: "E Standard",
+                bpm: 67,
+                confidenceLevel: "ORIGINAL_RIG",
+                confidenceReason: "존 메이어의 Continuum 시기 시그니처 장비(스트랫 넥 픽업 + 클린 진공관 앰프 + TS 계열 + 스프링 리버브) 자료 기반입니다.",
+                originalGear: {
+                    guitar: "Fender Stratocaster 'Black1' (넥 싱글 픽업 / 4번 하프톤)",
+                    amp: "Two-Rock Custom Reverb Signature / Fender Blackface",
+                    effects: "Ibanez TS10 Tube Screamer, Keeley Katana Boost, Spring Reverb",
+                    notes: "피킹 강약에 따라 클린과 살짝 깨지는 에지 오브 브레이크업을 오가는 다이내믹이 핵심입니다."
+                },
+                toneSummary: "유리알처럼 투명하면서도 따뜻한 스트랫 넥 픽업의 블루스 톤입니다. 살살 치면 맑은 클린, 세게 뜯으면 은은하게 깨지는 쫀득한 질감과 깊은 스프링 리버브가 특징입니다.",
+                guitarTip: "스트랫 넥(5단) 또는 넥+미들(4단) 싱글 픽업 추천. 기타 볼륨을 8 정도로 두고 솔로 때 10으로 올리세요.",
+                hardwareSetup: {
+                    exp1: "AMP Master (60 → 72) 또는 RVB Mix (28 → 42) — 아웃트로 솔로 감정선 부스트",
+                    ctrl: "FX2(Green Drive) ON/OFF — 벌스 클린과 솔로 드라이브를 발로 부드럽게 전환",
+                    drum: { number: 50, name: "Blues", timeSig: "4/4", bpm: 67, note: "느린 67 BPM 블루스 그루브에 맞춰 피킹 강약과 레이드백 타이밍을 연습하세요." }
+                },
+                modules: [
+                    { slot: "FX1", enabled: true, category: "Dynamic", modelName: "Comprosso", basedOn: "Ross Compressor", tip: "과하지 않게 서스테인과 핑거피킹 밸런스만 살짝 잡아줍니다.", params: [{ name: "Sustain", value: 35, displayValue: "35" }, { name: "Output", value: 55, displayValue: "55" }] },
+                    { slot: "FX2", enabled: true, category: "Overdrive", modelName: "Green Drive", basedOn: "Ibanez TS-808", tip: "게인을 낮게 설정해 따뜻한 미드레인지와 쫀득한 브레이크업을 더합니다.", params: [{ name: "Gain", value: 28, displayValue: "28" }, { name: "Tone", value: 52, displayValue: "52" }, { name: "Volume", value: 62, displayValue: "62" }] },
+                    { slot: "AMP", enabled: true, category: "Clean Amp", modelName: "Black Twin", basedOn: "Fender '65 Twin Reverb", tip: "존 메이어 톤의 기반이 되는 깊고 풍성한 블랙페이스 클린 앰프입니다.", params: [{ name: "Gain", value: 38, displayValue: "38" }, { name: "Master", value: 65, displayValue: "65" }, { name: "Bass", value: 58, displayValue: "58" }, { name: "Middle", value: 52, displayValue: "52" }, { name: "Treble", value: 60, displayValue: "60" }] },
+                    { slot: "NR", enabled: false, category: "Noise Gate", modelName: "OFF", basedOn: "-", tip: "", params: [] },
+                    { slot: "CAB", enabled: true, category: "Cabinet", modelName: "Black Twin 2x12", basedOn: "Fender '65 Twin 2x12", tip: "컨덴서 마이크(Con U87)로 부드럽고 고급스러운 고음을 살립니다.", params: [{ name: "Mic", value: 75, displayValue: "Con U87" }, { name: "Volume", value: 55, displayValue: "55" }] },
+                    { slot: "EQ", enabled: false, category: "EQ", modelName: "OFF", basedOn: "-", tip: "", params: [] },
+                    { slot: "FX3", enabled: false, category: "Modulation", modelName: "OFF", basedOn: "-", tip: "", params: [] },
+                    { slot: "DLY", enabled: true, category: "Delay", modelName: "Analog Eko", basedOn: "Analog Delay", tip: "리드 라인에 은은한 잔향감만 보태는 수준의 얇은 딜레이입니다.", params: [{ name: "Mix", value: 18, displayValue: "18" }, { name: "Feedback", value: 22, displayValue: "22" }, { name: "Time", value: 30, displayValue: "360ms" }] },
+                    { slot: "RVB", enabled: true, category: "Reverb", modelName: "Spring", basedOn: "Vintage Spring Reverb", tip: "이 곡의 시그니처인 촉촉하고 깊은 빈티지 스프링 리버브입니다.", params: [{ name: "Mix", value: 34, displayValue: "34" }, { name: "Decay", value: 48, displayValue: "48" }, { name: "Tone", value: 55, displayValue: "55" }] }
+                ]
+            },
+            "윤하 - 사건의 지평선": {
+                songTitle: "사건의 지평선",
+                artist: "윤하 (YOUNHA)",
+                patchName: "EVENT_HRZN",
+                tuning: "E Standard",
+                bpm: 120,
+                confidenceLevel: "ARTIST_STYLE",
+                confidenceReason: "윤하 밴드 라이브/모던 팝록 세션 표준 장비(브리티시 크런치 앰프 + OCD 계열 드라이브 + 타이트한 공간계) 기반 세팅입니다.",
+                originalGear: {
+                    guitar: "SSH 슈퍼스트랫 또는 텔레캐스터/레스폴 (브릿지 픽업)",
+                    amp: "Marshall JCM800 / Friedman 스타일 브리티시 크런치 앰프",
+                    effects: "Fulltone OCD 계열 오버드라이브, 디지털 딜레이, 플레이트 리버브",
+                    notes: "보컬과 피아노 사이를 뚫고 나오는 시원한 중·고음역대와 깔끔한 코드 분리도가 중요합니다."
+                },
+                toneSummary: "시원하고 청량하게 뻗어 나가는 K-팝록 스타일의 모던 브리티시 드라이브 톤입니다. 후렴 파워코드가 뭉개지지 않도록 저음을 정돈하고 선명한 미드하이를 강조했습니다.",
+                guitarTip: "브릿지 험버커(또는 텔레 브릿지) 픽업, 톤 노브 9~10. 벌스에서는 기타 볼륨을 7로 살짝 줄여 연주하면 자연스럽습니다.",
+                hardwareSetup: {
+                    exp1: "AMP Master (58 → 68) 솔로 볼륨 부스트 (Curve: Line)",
+                    ctrl: "Tap: FX2(Force Drive) + DLY 동시 ON/OFF / Hold: Tap Tempo (120 BPM)",
+                    drum: { number: 32, name: "Pop Rock", timeSig: "4/4", bpm: 120, note: "경쾌한 8비트 팝록 리듬으로 후렴 스트로크와 브레이크 타이밍 연습에 최적입니다." }
+                },
+                modules: [
+                    { slot: "FX1", enabled: true, category: "Dynamic", modelName: "Comprosso", basedOn: "Ross Compressor", tip: "스트로크 리듬의 어택을 균일하고 탄탄하게 잡아줍니다.", params: [{ name: "Sustain", value: 30, displayValue: "30" }, { name: "Output", value: 52, displayValue: "52" }] },
+                    { slot: "FX2", enabled: true, category: "Overdrive", modelName: "Force Drive", basedOn: "Fulltone OCD V3", tip: "선명한 코드 분리도와 시원한 드라이브 질감을 더해줍니다.", params: [{ name: "Gain", value: 48, displayValue: "48" }, { name: "Tone", value: 58, displayValue: "58" }, { name: "Volume", value: 60, displayValue: "60" }] },
+                    { slot: "AMP", enabled: true, category: "Drive Amp", modelName: "Marshell 800", basedOn: "Marshall JCM800", tip: "팝록 밴드 믹스에서 가장 잘 뚫고 나오는 브리티시 크런치 앰프입니다.", params: [{ name: "Gain", value: 54, displayValue: "54" }, { name: "Presence", value: 56, displayValue: "56" }, { name: "Master", value: 60, displayValue: "60" }, { name: "Bass", value: 50, displayValue: "50" }, { name: "Middle", value: 62, displayValue: "62" }, { name: "Treble", value: 58, displayValue: "58" }] },
+                    { slot: "NR", enabled: true, category: "Noise Gate", modelName: "Smart Gate", basedOn: "ISP Decimator", tip: "곡의 브레이크 구간에서 노이즈를 깔끔하게 차단합니다.", params: [{ name: "Threshold", value: 28, displayValue: "28" }] },
+                    { slot: "CAB", enabled: true, category: "Cabinet", modelName: "UK Lead 4x12", basedOn: "Marshall 1960AV 4x12", tip: "시원하고 입체적인 락 기타 캐비넷 조합입니다.", params: [{ name: "Mic", value: 50, displayValue: "Dyn 57" }, { name: "Volume", value: 55, displayValue: "55" }] },
+                    { slot: "EQ", enabled: false, category: "EQ", modelName: "OFF", basedOn: "-", tip: "", params: [] },
+                    { slot: "FX3", enabled: false, category: "Modulation", modelName: "OFF", basedOn: "-", tip: "", params: [] },
+                    { slot: "DLY", enabled: true, category: "Delay", modelName: "Pure Eko", basedOn: "Digital Delay", tip: "리드 멜로디와 후렴에 깔끔한 입체감을 더합니다.", params: [{ name: "Mix", value: 22, displayValue: "22" }, { name: "Feedback", value: 26, displayValue: "26" }, { name: "Time", value: 28, displayValue: "340ms" }] },
+                    { slot: "RVB", enabled: true, category: "Reverb", modelName: "Plate", basedOn: "Vintage Plate Reverb", tip: "세련되고 화사한 팝록 공간감을 연출합니다.", params: [{ name: "Mix", value: 24, displayValue: "24" }, { name: "Decay", value: 38, displayValue: "38" }, { name: "High Damp", value: 45, displayValue: "45" }] }
+                ]
+            },
+            "metallica - master of puppets": {
+                songTitle: "Master of Puppets",
+                artist: "Metallica",
+                patchName: "MOP_THRASH",
+                tuning: "E Standard",
+                bpm: 212,
+                confidenceLevel: "ORIGINAL_RIG",
+                confidenceReason: "메탈리카 1986년 앨범 레코딩 시그니처 장비(Mesa/Boogie Mark IIC+ + 5밴드 V-EQ 미드 스쿱) 자료 기반 세팅입니다.",
+                originalGear: {
+                    guitar: "Gibson Explorer / ESP MX-220 (EMG 81 액티브 험버커)",
+                    amp: "Mesa/Boogie Mark IIC+ (슬레이브 파워앰프 + Marshall 4x12)",
+                    effects: "Mesa 5-Band Graphic EQ (V자 커브), 노이즈 게이트",
+                    notes: "80년대 스래시 메탈의 교과서인 Mark IIC+ 앰프와 750Hz를 과감히 깎는 V-EQ 세팅이 핵심입니다."
+                },
+                toneSummary: "면도날처럼 날카롭고 타이트한 다운피킹 팜뮤트가 살아있는 정통 80년대 스래시 메탈 톤입니다. Messe IIC+ 앰프와 V-EQ의 미드 스쿱으로 원곡의 묵직한 질감을 재현했습니다.",
+                guitarTip: "브릿지 험버커 필수, 볼륨/톤 10. 빠른 다운피킹 팜뮤트를 위해 단단한 피크(1.0mm 이상) 사용을 추천합니다.",
+                hardwareSetup: {
+                    exp1: "Volume Pedal (0 → 100) — 곡 중반 클린 인터루드 전환 전 볼륨 스웰/뮤트용",
+                    ctrl: "FX2(Green Drive) ON/OFF — 리듬과 리드 솔로 어택감 전환",
+                    drum: { number: 39, name: "Metal", timeSig: "4/4", bpm: 212, note: "처음엔 170 BPM으로 낮춰 다운피킹 정확도를 잡은 뒤 212 BPM까지 올려보세요." }
+                },
+                modules: [
+                    { slot: "FX1", enabled: false, category: "Dynamic", modelName: "OFF", basedOn: "-", tip: "", params: [] },
+                    { slot: "FX2", enabled: true, category: "Overdrive", modelName: "Green Drive", basedOn: "Ibanez TS-808", tip: "게인을 낮추고 볼륨을 올려 저음을 단단하게 조여주는 타이트 부스터 역할입니다.", params: [{ name: "Gain", value: 10, displayValue: "10" }, { name: "Tone", value: 62, displayValue: "62" }, { name: "Volume", value: 75, displayValue: "75" }] },
+                    { slot: "AMP", enabled: true, category: "HiGain Amp", modelName: "Messe IIC+ 1", basedOn: "Mesa/Boogie Mark IIC+", tip: "원곡 레코딩에 실제 사용된 전설적인 스래시 하이게인 앰프 모델입니다.", params: [{ name: "Gain", value: 78, displayValue: "78" }, { name: "Presence", value: 64, displayValue: "64" }, { name: "Master", value: 58, displayValue: "58" }, { name: "Bass", value: 42, displayValue: "42" }, { name: "Middle", value: 35, displayValue: "35" }, { name: "Treble", value: 68, displayValue: "68" }] },
+                    { slot: "NR", enabled: true, category: "Noise Gate", modelName: "Smart Gate", basedOn: "ISP Decimator", tip: "스타카토 리프와 팜뮤트 사이의 끊김을 칼같이 잡아줍니다.", params: [{ name: "Threshold", value: 48, displayValue: "48" }] },
+                    { slot: "CAB", enabled: true, category: "Cabinet", modelName: "Rector 4x12", basedOn: "Mesa Rectifier 4x12", tip: "묵직하고 단단한 저음을 받쳐주는 4x12 캐비넷입니다.", params: [{ name: "Mic", value: 50, displayValue: "Dyn 57" }, { name: "Volume", value: 58, displayValue: "58" }] },
+                    { slot: "EQ", enabled: true, category: "EQ", modelName: "V-EQ", basedOn: "Mesa 5-Band EQ", tip: "750Hz를 과감하게 깎는 메탈리카 시그니처 V자 EQ 커브입니다.", params: [{ name: "80Hz", value: 68, displayValue: "+18" }, { name: "240Hz", value: 56, displayValue: "+6" }, { name: "750Hz", value: 20, displayValue: "-30" }, { name: "2.2kHz", value: 64, displayValue: "+14" }, { name: "6.6kHz", value: 62, displayValue: "+12" }] },
+                    { slot: "FX3", enabled: false, category: "Modulation", modelName: "OFF", basedOn: "-", tip: "", params: [] },
+                    { slot: "DLY", enabled: false, category: "Delay", modelName: "OFF", basedOn: "-", tip: "", params: [] },
+                    { slot: "RVB", enabled: true, category: "Reverb", modelName: "Hall", basedOn: "Hall Reverb", tip: "건조함을 살짝만 풀어주는 최소한의 룸 잔향입니다.", params: [{ name: "Mix", value: 12, displayValue: "12" }, { name: "Pre Delay", value: 10, displayValue: "10ms" }, { name: "Decay", value: 22, displayValue: "22" }] }
+                ]
+            },
+            "day6 - 한 페이지가 될 수 있게": {
+                songTitle: "한 페이지가 될 수 있게",
+                artist: "DAY6",
+                patchName: "DAY6_PAGE",
+                tuning: "E Standard",
+                bpm: 176,
+                confidenceLevel: "ARTIST_STYLE",
+                confidenceReason: "DAY6(성진/제이)의 주력 브리티시 크런치 앰프(VOX AC30 계열)와 청량한 블루스 드라이브 성향 기반 세팅입니다.",
+                originalGear: {
+                    guitar: "Fender Telecaster / Gretsch / Gibson Les Paul",
+                    amp: "VOX AC30 Top Boost / Matchless 계열 브리티시 콤보",
+                    effects: "Xotic RC Booster, Boss BD-2 계열 오버드라이브, 디지털 딜레이",
+                    notes: "빠른 템포의 8비트 스트로크가 경쾌하게 들리도록 찰랑거리는 고음(차임)과 산뜻한 크런치를 강조합니다."
+                },
+                toneSummary: "청량하고 에너지 넘치는 모던 락 밴드 사운드입니다. VOX AC30 특유의 찰랑거리는 고음역대와 산뜻한 오버드라이브가 어우러져 빠른 스트로크에서도 코드가 또렷하게 살아납니다.",
+                guitarTip: "브릿지 또는 미들+브릿지 픽업 추천. 경쾌한 어택감을 위해 픽업 셀렉터를 밝은 포지션에 두세요.",
+                hardwareSetup: {
+                    exp1: "AMP Master (60 → 70) 또는 DLY Mix (18 → 30) — 간주 리드 파트 강조",
+                    ctrl: "Tap: FX2(Dr. Blues) + DLY ON/OFF / Hold: Tap Tempo (176 BPM)",
+                    drum: { number: 32, name: "Pop Rock", timeSig: "4/4", bpm: 176, note: "빠른 템포의 8비트 스트로크 지구력과 업/다운 피킹 균일도 연습에 좋습니다." }
+                },
+                modules: [
+                    { slot: "FX1", enabled: true, category: "Dynamic", modelName: "Pristine Boost", basedOn: "Xotic RC Booster", tip: "음색을 해치지 않으면서 반짝이는 고음과 생동감을 더해줍니다.", params: [{ name: "Gain", value: 22, displayValue: "22" }, { name: "Volume", value: 58, displayValue: "58" }, { name: "Bass", value: 50, displayValue: "50" }, { name: "Treble", value: 58, displayValue: "58" }] },
+                    { slot: "FX2", enabled: true, category: "Overdrive", modelName: "Dr. Blues", basedOn: "Boss BD-2", tip: "코드 한 음 한 음이 살아있는 시원하고 개방적인 오버드라이브입니다.", params: [{ name: "Gain", value: 42, displayValue: "42" }, { name: "Tone", value: 56, displayValue: "56" }, { name: "Volume", value: 60, displayValue: "60" }] },
+                    { slot: "AMP", enabled: true, category: "Drive Amp", modelName: "Voxy 30HW TB", basedOn: "VOX AC30HW Top Boost", tip: "청량한 락 밴드 톤의 핵심인 브리티시 차임 크런치 앰프입니다.", params: [{ name: "Volume", value: 52, displayValue: "52" }, { name: "Tone Cut", value: 38, displayValue: "38" }, { name: "Master", value: 60, displayValue: "60" }, { name: "Bass", value: 48, displayValue: "48" }, { name: "Treble", value: 62, displayValue: "62" }] },
+                    { slot: "NR", enabled: true, category: "Noise Gate", modelName: "Smart Gate", basedOn: "ISP Decimator", tip: "가볍게 걸어 화이트 노이즈만 정리합니다.", params: [{ name: "Threshold", value: 24, displayValue: "24" }] },
+                    { slot: "CAB", enabled: true, category: "Cabinet", modelName: "Voxy 2x12", basedOn: "VOX AC30 2x12", tip: "Voxy 앰프와 찰떡궁합인 오픈백 스타일의 산뜻한 2x12 캐비넷입니다.", params: [{ name: "Mic", value: 50, displayValue: "Dyn 57" }, { name: "Volume", value: 55, displayValue: "55" }] },
+                    { slot: "EQ", enabled: false, category: "EQ", modelName: "OFF", basedOn: "-", tip: "", params: [] },
+                    { slot: "FX3", enabled: false, category: "Modulation", modelName: "OFF", basedOn: "-", tip: "", params: [] },
+                    { slot: "DLY", enabled: true, category: "Delay", modelName: "Pure Eko", basedOn: "Digital Delay", tip: "리드 리프와 후렴에 상쾌한 공간감을 더합니다.", params: [{ name: "Mix", value: 20, displayValue: "20" }, { name: "Feedback", value: 24, displayValue: "24" }, { name: "Time", value: 28, displayValue: "340ms" }] },
+                    { slot: "RVB", enabled: true, category: "Reverb", modelName: "Plate", basedOn: "Vintage Plate Reverb", tip: "밝고 깨끗한 플레이트 리버브로 밴드 사운드를 감싸줍니다.", params: [{ name: "Mix", value: 25, displayValue: "25" }, { name: "Decay", value: 40, displayValue: "40" }, { name: "High Damp", value: 40, displayValue: "40" }] }
+                ]
+            }
+        };
+
+        // ============================================================
+        // 3-2. Gemini AI 호출 (미리보기 자동 감지 ↔ 배포 시 Vercel 보안 서버)
+        // ============================================================
+        function isCanvasPreviewEnv() {
+            return (
+                typeof __app_id !== 'undefined' ||
+                window.location.protocol === 'blob:' ||
+                window.location.protocol === 'file:' ||
+                window.location.hostname === '' ||
+                window.location.hostname.includes('googleusercontent')
+            );
+        }
+
+        async function fetchMP100Patch(songQuery, pickup, part, outputMode, moodNote) {
+            const useDirectPreview = isCanvasPreviewEnv();
+            const apiKey = "";
+            const endpoint = useDirectPreview
+                ? `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-09-2025:generateContent?key=${apiKey}`
+                : `/api/generate-tone`;
+
+            const outputRuleText = outputMode === 'AMP_INPUT'
+                ? '사용자는 실제 기타 앰프의 일반 INPUT에 연결합니다. 매뉴얼 p.17에 따라 AMP 모듈과 CAB 모듈은 반드시 enabled: false로 설정하고, 드라이브/이펙터 페달 중심으로 톤을 구성하세요.'
+                : outputMode === 'AMP_RETURN'
+                    ? '사용자는 실제 기타 앰프의 FX Loop Return(또는 파워앰프)에 연결합니다. 매뉴얼 p.17에 따라 AMP 모듈은 enabled: true로 사용하되, CAB 모듈은 반드시 enabled: false로 설정하세요.'
+                    : '사용자는 헤드폰/오인페/믹서/FRFR 스피커에 연결합니다. 매뉴얼 p.18에 따라 AMP 모듈과 CAB 모듈을 모두 enabled: true로 설정하세요.';
+
+            const systemPrompt = `당신은 Hotone Ampero MP-100 (Firmware V3.0) 공식 매뉴얼을 완벽히 숙지한 프로 기타 테크니션이자 톤 엔지니어입니다.
+사용자가 입력한 곡과 조건에 맞춰 MP-100의 9개 시그널 체인(FX1, FX2, AMP, NR, CAB, EQ, FX3, DLY, RVB) 세팅을 한국어로 정확하게 추천하세요.
+
+[필수 규칙]
+1. 모델명은 반드시 아래 제공되는 MP-100 공식 매뉴얼(V3.0) 탑재 모델명 목록에서만 선택하세요. 목록에 없는 임의의 모델명을 지어내지 마세요.
+2. 원곡에서 실제로 사용된 기타, 앰프, 이펙터 정보를 originalGear에 사실적으로 정리하세요.
+3. 신뢰도 등급(confidenceLevel)을 정직하게 분류하세요:
+   - "ORIGINAL_RIG": 해당 곡의 실제 레코딩/라이브 장비 자료가 잘 알려져 있고 그에 맞춰 매핑한 경우
+   - "ARTIST_STYLE": 특정 곡의 정확한 장비 정보는 부족하지만 아티스트의 주력 장비/톤 성향을 바탕으로 추정한 경우
+   - "GENRE_ESTIMATE": 잘 알려지지 않은 곡·신곡·자작곡 등으로 장르 및 사용자 입력 분위기 키워드를 바탕으로 추천한 경우
+4. modules 배열은 반드시 다음 9개 슬롯 순서대로 모두 포함해야 합니다: FX1, FX2, AMP, NR, CAB, EQ, FX3, DLY, RVB.
+5. enabled가 true인 모듈은 실제 MP-100 파라미터(3~6개)를 params 배열에 넣으세요. value는 노브 각도 표시용 0~100 숫자이며, displayValue는 실제 표시 문자열(예: "65", "380ms", "Dyn 57", "+4", "ON")입니다.
+6. enabled가 false인 모듈은 modelName을 "OFF", params를 빈 배열([])로 두세요.
+7. ${outputRuleText}
+8. hardwareSetup에 MP-100의 물리 컨트롤러(EXP 1 익스프레션 페달 타겟, CTRL 풋스위치 추천)와 아래 매뉴얼 p.39-41 내장 드럼 머신 목록에서 가장 어울리는 패턴 번호·이름·박자·BPM을 추천하세요.
+
+${MP100_OFFICIAL_MODELS}
+
+${MP100_DRUM_PATTERNS}`;
+
+            const userPrompt = `다음 곡을 Hotone Ampero MP-100으로 연주하기 위한 톤 세팅을 만들어 주세요:
+- 곡 / 아티스트: ${songQuery}
+- 사용 기타/픽업: ${pickup}
+- 연주 파트: ${part}
+- 출력 환경: ${OUTPUT_GUIDES[outputMode]?.label || outputMode}
+- 원하는 톤 분위기 보조 키워드: ${moodNote || '없음 (원곡 기준)'}`;
+
+            const payload = {
+                systemInstruction: {
+                    parts: [{ text: systemPrompt }]
+                },
+                contents: [
+                    {
+                        role: "user",
+                        parts: [{ text: userPrompt }]
+                    }
+                ],
+                generationConfig: {
+                    temperature: 0.4,
+                    responseMimeType: "application/json",
+                    responseSchema: {
+                        type: "OBJECT",
+                        properties: {
+                            songTitle: { type: "STRING" },
+                            artist: { type: "STRING" },
+                            patchName: { type: "STRING" },
+                            tuning: { type: "STRING" },
+                            bpm: { type: "INTEGER" },
+                            confidenceLevel: {
+                                type: "STRING",
+                                enum: ["ORIGINAL_RIG", "ARTIST_STYLE", "GENRE_ESTIMATE"]
+                            },
+                            confidenceReason: { type: "STRING" },
+                            originalGear: {
+                                type: "OBJECT",
+                                properties: {
+                                    guitar: { type: "STRING" },
+                                    amp: { type: "STRING" },
+                                    effects: { type: "STRING" },
+                                    notes: { type: "STRING" }
+                                },
+                                required: ["guitar", "amp", "effects", "notes"]
+                            },
+                            toneSummary: { type: "STRING" },
+                            guitarTip: { type: "STRING" },
+                            hardwareSetup: {
+                                type: "OBJECT",
+                                properties: {
+                                    exp1: { type: "STRING" },
+                                    ctrl: { type: "STRING" },
+                                    drum: {
+                                        type: "OBJECT",
+                                        properties: {
+                                            number: { type: "INTEGER" },
+                                            name: { type: "STRING" },
+                                            timeSig: { type: "STRING" },
+                                            bpm: { type: "INTEGER" },
+                                            note: { type: "STRING" }
+                                        },
+                                        required: ["number", "name", "timeSig", "bpm", "note"]
+                                    }
+                                },
+                                required: ["exp1", "ctrl", "drum"]
+                            },
+                            modules: {
+                                type: "ARRAY",
+                                items: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        slot: {
+                                            type: "STRING",
+                                            enum: ["FX1", "FX2", "AMP", "NR", "CAB", "EQ", "FX3", "DLY", "RVB"]
+                                        },
+                                        enabled: { type: "BOOLEAN" },
+                                        category: { type: "STRING" },
+                                        modelName: { type: "STRING" },
+                                        basedOn: { type: "STRING" },
+                                        tip: { type: "STRING" },
+                                        params: {
+                                            type: "ARRAY",
+                                            items: {
+                                                type: "OBJECT",
+                                                properties: {
+                                                    name: { type: "STRING" },
+                                                    value: { type: "NUMBER" },
+                                                    displayValue: { type: "STRING" }
+                                                },
+                                                required: ["name", "value", "displayValue"]
+                                            }
+                                        }
+                                    },
+                                    required: ["slot", "enabled", "category", "modelName", "basedOn", "tip", "params"]
+                                }
+                            }
+                        },
+                        required: [
+                            "songTitle", "artist", "patchName", "tuning", "bpm",
+                            "confidenceLevel", "confidenceReason", "originalGear",
+                            "toneSummary", "guitarTip", "hardwareSetup", "modules"
+                        ]
+                    }
+                }
+            };
+
+            let lastError = null;
+            for (let attempt = 0; attempt < 5; attempt++) {
+                try {
+                    // 배포 환경에서는 프롬프트 하이재킹 방지를 위해 5개 핵심 입력값만 보안 서버로 전송
+                    const requestBody = useDirectPreview
+                        ? JSON.stringify(payload)
+                        : JSON.stringify({
+                              songQuery,
+                              pickup,
+                              part,
+                              outputMode,
+                              moodNote
+                          });
+
+                    const res = await fetch(endpoint, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: requestBody
+                    });
+
+                    if (res.status === 429) {
+                        const errData = await res.json().catch(() => ({}));
+                        const limitErr = new Error(
+                            errData.error || "시간당 무료 AI 생성 한도를 초과했습니다. 잠시 후 다시 시도해 주세요."
+                        );
+                        limitErr.isUserMessage = true;
+                        throw limitErr;
+                    }
+
+                    if (!res.ok) {
+                        const errData = await res.json().catch(() => ({}));
+                        throw new Error(errData.error || `API HTTP ${res.status}`);
+                    }
+
+                    const json = await res.json();
+                    const text = json?.candidates?.[0]?.content?.parts?.[0]?.text;
+                    if (!text) {
+                        throw new Error("빈 AI 응답을 받았습니다.");
+                    }
+
+                    const parsed = JSON.parse(text);
+                    basePatchBeforeOutput = JSON.parse(JSON.stringify(parsed));
+                    return applyOutputModeToPatch(parsed, outputMode, moodNote);
+                } catch (err) {
+                    if (err.isUserMessage) {
+                        throw err;
+                    }
+                    lastError = err;
+                    if (attempt < 4) {
+                        const delay = Math.pow(2, attempt) * 1000;
+                        await new Promise(resolve => setTimeout(resolve, delay));
+                    }
+                }
+            }
+
+            throw lastError || new Error("톤 세팅 생성에 실패했습니다.");
+        }
+
+        // ============================================================
+        // 4. 빈티지 골드캡 로터리 노브 SVG 생성기
+        // ============================================================
+        function createKnobSVG(value, accentColor) {
+            const clamped = Math.max(0, Math.min(100, Number(value) || 0));
+            const angle = -135 + (clamped / 100) * 270;
+            const radius = 23;
+            const circumference = 2 * Math.PI * radius;
+            const arcLength = circumference * 0.75;
+            const dashOffset = arcLength - (clamped / 100) * arcLength;
+
+            return `
+                <svg class="w-12 h-12 sm:w-14 sm:h-14 select-none" viewBox="0 0 60 60">
+                    <circle
+                        cx="30" cy="30" r="${radius}"
+                        fill="none"
+                        stroke="#DFD3BC"
+                        stroke-width="4"
+                        stroke-linecap="round"
+                        stroke-dasharray="${arcLength} ${circumference}"
+                        transform="rotate(135 30 30)"
+                    />
+                    <circle
+                        cx="30" cy="30" r="${radius}"
+                        fill="none"
+                        stroke="${accentColor}"
+                        stroke-width="4"
+                        stroke-linecap="round"
+                        stroke-dasharray="${arcLength} ${circumference}"
+                        stroke-dashoffset="${dashOffset}"
+                        transform="rotate(135 30 30)"
+                    />
+                    <circle cx="30" cy="30" r="16.5" fill="#1C1613" stroke="#0F0C0A" stroke-width="1.5" />
+                    <circle cx="30" cy="30" r="11.5" fill="#D4AF4F" stroke="#7A5C1B" stroke-width="1" />
+                    <circle cx="30" cy="30" r="9.5" fill="#E6C97A" />
+                    <g transform="rotate(${angle} 30 30)">
+                        <line x1="30" y1="22" x2="30" y2="14" stroke="#1C1613" stroke-width="2.6" stroke-linecap="round" />
+                    </g>
+                </svg>
+            `;
+        }
+
+        // ============================================================
+        // 5. UI 렌더링 함수
+        // ============================================================
+        function renderPatch(patch) {
+            currentPatch = patch;
+            selectedSlot = null;
+
+            emptyStateSection.classList.add('hidden');
+            loadingSection.classList.add('hidden');
+            resultSection.classList.remove('hidden');
+            document.getElementById('mobileQuickBar')?.classList.remove('hidden');
+            document.body.classList.add('pb-16', 'md:pb-0');
+
+            document.getElementById('resPatchName').textContent = patch.patchName || 'MP100_PATCH';
+            document.getElementById('resTuning').textContent = `튜닝: ${patch.tuning || 'E Standard'}`;
+            document.getElementById('resBpm').textContent = `${patch.bpm || 120} BPM`;
+            document.getElementById('resSongHeader').textContent = `${patch.artist} — ${patch.songTitle}`;
+            document.getElementById('resToneSummary').textContent = patch.toneSummary || '';
+            document.getElementById('resGuitarTip').textContent = patch.guitarTip || '';
+
+            const confKey = CONFIDENCE_STYLES[patch.confidenceLevel] ? patch.confidenceLevel : 'ARTIST_STYLE';
+            const confStyle = CONFIDENCE_STYLES[confKey];
+            const confBadgeEl = document.getElementById('resConfidenceBadge');
+            confBadgeEl.className = confStyle.badgeClass;
+            confBadgeEl.textContent = confStyle.label;
+            document.getElementById('resConfidenceReason').textContent = patch.confidenceReason || confStyle.rigTag;
+            document.getElementById('resRigTag').textContent = confStyle.rigTag;
+
+            const outKey = OUTPUT_GUIDES[patch.outputMode] ? patch.outputMode : 'FRFR_HEADPHONE';
+            document.getElementById('resOutputGuide').textContent = OUTPUT_GUIDES[outKey].guide;
+
+            const orig = patch.originalGear || {};
+            document.getElementById('resOrigGuitar').textContent = orig.guitar || '정보 없음';
+            document.getElementById('resOrigAmp').textContent = orig.amp || '정보 없음';
+            document.getElementById('resOrigEffects').textContent = orig.effects || '정보 없음';
+            document.getElementById('resOrigNotes').textContent = orig.notes || '원곡 톤 특성을 바탕으로 MP-100 공식 모델로 매핑했습니다.';
+
+            const hw = patch.hardwareSetup || {};
+            const drum = hw.drum || {};
+            document.getElementById('resExp1').textContent = hw.exp1 || 'Volume Pedal (0 → 100) 또는 솔로 시 AMP Master 부스트';
+            document.getElementById('resCtrl').textContent = hw.ctrl || 'FX2(드라이브) + DLY 동시 ON/OFF 또는 Hold: Tap Tempo';
+            const drumNum = typeof drum.number === 'number' ? `#${drum.number}` : '#31';
+            const drumName = drum.name || 'Classic Rock';
+            const drumBpm = drum.bpm || patch.bpm || 120;
+            const drumSig = drum.timeSig || '4/4';
+            document.getElementById('resDrumPattern').textContent = `${drumNum} ${drumName}`;
+            document.getElementById('resDrumBadge').textContent = `${drumSig} · ${drumBpm} BPM`;
+            document.getElementById('resDrumNote').textContent = drum.note || 'MP-100 DRUM 메뉴에서 해당 리듬 번호와 템포를 맞춰 연습해 보세요.';
+
+            renderSignalChain();
+            renderModuleCards();
+        }
+
+        function renderSignalChain() {
+            if (!currentPatch) return;
+            signalChainBar.innerHTML = '';
+
+            currentPatch.modules.forEach((mod, idx) => {
+                const style = MODULE_COLORS[mod.slot] || MODULE_COLORS.FX1;
+                const isSelected = selectedSlot === mod.slot;
+
+                const btn = document.createElement('button');
+                btn.type = 'button';
+                btn.className = `
+                    relative flex flex-col items-center justify-center min-w-[78px] sm:flex-1 py-2.5 px-2 rounded-xl border transition-all duration-150 shrink-0
+                    ${mod.enabled
+                        ? `${style.chipBg} border-tolex ${isSelected ? 'ring-2 ring-brass -translate-y-0.5 shadow-md' : 'shadow-sm hover:-translate-y-0.5'}`
+                        : 'bg-tweed-panel/50 border-dashed border-tweed-border opacity-60 hover:opacity-90'}
+                `;
+
+                btn.innerHTML = `
+                    <span class="w-2.5 h-2.5 rounded-full mb-1.5 border border-tolex-dark ${mod.enabled ? style.dot : 'bg-neutral-300'}"></span>
+                    <span class="font-amp tracking-wider text-xs font-bold ${mod.enabled ? 'text-tolex' : 'text-neutral-500'}">${mod.slot}</span>
+                    <span class="text-[10px] font-bold truncate max-w-[68px] mt-0.5 ${mod.enabled ? 'text-neutral-700' : 'text-neutral-400'}">
+                        ${mod.enabled ? mod.modelName : 'OFF'}
+                    </span>
+                `;
+
+                btn.addEventListener('click', () => {
+                    selectedSlot = (selectedSlot === mod.slot) ? null : mod.slot;
+                    if (!mod.enabled && showOnlyActive) {
+                        showOnlyActive = false;
+                        updateFilterButtons();
+                    }
+                    renderSignalChain();
+                    renderModuleCards();
+
+                    if (selectedSlot) {
+                        const targetCard = document.getElementById(`card-${mod.slot}`);
+                        if (targetCard) {
+                            targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                        }
+                    }
+                });
+
+                signalChainBar.appendChild(btn);
+
+                if (idx < currentPatch.modules.length - 1) {
+                    const arrow = document.createElement('div');
+                    arrow.className = 'text-brass-dark font-black text-xs font-mono shrink-0 select-none';
+                    arrow.textContent = '→';
+                    signalChainBar.appendChild(arrow);
+                }
+            });
+        }
+
+        function renderModuleCards() {
+            if (!currentPatch) return;
+            modulesGrid.innerHTML = '';
+
+            const list = showOnlyActive
+                ? currentPatch.modules.filter(m => m.enabled)
+                : currentPatch.modules;
+
+            list.forEach(mod => {
+                const style = MODULE_COLORS[mod.slot] || MODULE_COLORS.FX1;
+                const isSelected = selectedSlot === mod.slot;
+
+                const card = document.createElement('article');
+                card.id = `card-${mod.slot}`;
+                card.className = `
+                    rounded-2xl p-4 sm:p-5 transition-all duration-200
+                    ${mod.enabled
+                        ? `amp-cabinet ${isSelected ? 'ring-4 ring-brass/60' : ''}`
+                        : 'bg-tweed-panel/60 border border-dashed border-tweed-border opacity-70'}
+                `;
+
+                let paramsHtml = '';
+                if (mod.enabled && mod.params && mod.params.length > 0) {
+                    paramsHtml = `
+                        <div class="grid grid-cols-3 sm:grid-cols-4 gap-2 sm:gap-2.5 pt-3.5 mt-3.5 border-t border-tweed-border">
+                            ${mod.params.map(p => `
+                                <div class="flex flex-col items-center bg-tweed-panel/70 rounded-xl py-2 px-1 border border-tweed-border/80">
+                                    ${createKnobSVG(p.value, style.accent)}
+                                    <span class="font-mono text-xs font-extrabold text-tolex -mt-0.5">${p.displayValue}</span>
+                                    <span class="font-amp tracking-wide text-[10px] font-bold text-neutral-600 uppercase mt-0.5 truncate max-w-full px-1">${p.name}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                    `;
+                } else if (!mod.enabled) {
+                    paramsHtml = `
+                        <div class="pt-3 mt-3 border-t border-dashed border-tweed-border text-xs text-neutral-500 font-mono font-bold">
+                            이 곡에서는 해당 모듈을 OFF(Bypass) 상태로 두세요.
+                        </div>
+                    `;
+                }
+
+                card.innerHTML = `
+                    <div class="flex items-start justify-between gap-2">
+                        <div class="flex items-center gap-2.5 min-w-0">
+                            <span class="px-2.5 py-1 rounded-lg border border-tolex font-amp tracking-wider text-xs font-bold shrink-0 ${mod.enabled ? style.badge : 'bg-neutral-200 text-neutral-500 border-neutral-400'}">
+                                ${mod.slot}
+                            </span>
+                            <div class="min-w-0">
+                                <div class="flex items-center gap-2">
+                                    <h3 class="text-base font-extrabold truncate ${mod.enabled ? 'text-tolex' : 'text-neutral-500'}">
+                                        ${mod.enabled ? mod.modelName : 'BYPASS (OFF)'}
+                                    </h3>
+                                </div>
+                                <p class="text-[11px] font-semibold text-neutral-500 truncate">
+                                    ${mod.enabled ? `${mod.category} · ${mod.basedOn}` : mod.category}
+                                </p>
+                            </div>
+                        </div>
+                        <span class="px-2 py-0.5 rounded border font-mono text-[10px] font-extrabold shrink-0 ${mod.enabled ? 'bg-jewel-green text-white border-tolex-dark' : 'bg-neutral-200 text-neutral-500 border-neutral-400'}">
+                            ${mod.enabled ? 'ON' : 'OFF'}
+                        </span>
+                    </div>
+
+                    ${mod.tip ? `<p class="text-xs font-medium text-neutral-700 mt-3 leading-relaxed bg-white px-3 py-2 rounded-lg border border-tweed-border/70">${mod.tip}</p>` : ''}
+                    ${paramsHtml}
+                `;
+
+                modulesGrid.appendChild(card);
+            });
+        }
+
+        function updateFilterButtons() {
+            if (showOnlyActive) {
+                filterActiveBtn.className = 'px-2.5 py-1 rounded-lg bg-tolex text-brass-light border border-tolex font-bold transition';
+                filterAllBtn.className = 'px-2.5 py-1 rounded-lg bg-white text-neutral-600 border border-tweed-border font-bold hover:bg-tweed-panel transition';
+            } else {
+                filterActiveBtn.className = 'px-2.5 py-1 rounded-lg bg-white text-neutral-600 border border-tweed-border font-bold hover:bg-tweed-panel transition';
+                filterAllBtn.className = 'px-2.5 py-1 rounded-lg bg-tolex text-brass-light border border-tolex font-bold transition';
+            }
+        }
+
+        // ============================================================
+        // 6. 계정 로그인 & 클라우드 패치북 동기화 (로컬 폴백 포함)
+        // ============================================================
+        function getUserPatchesCollection(uid) {
+            return collection(db, 'artifacts', appId, 'users', uid, 'patches');
+        }
+
+        function loadLocalPatches() {
+            try {
+                savedPatches = JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]');
+            } catch {
+                savedPatches = [];
+            }
+            updateSavedBadge();
+            renderSavedModalList();
+        }
+
+        function updateSavedBadge() {
+            document.getElementById('savedCountBadge').textContent = savedPatches.length;
+        }
+
+        function updateAuthUI(user) {
+            const authStatusDot = document.getElementById('authStatusDot');
+            const authBtnLabel = document.getElementById('authBtnLabel');
+            const syncStatusPill = document.getElementById('syncStatusPill');
+            const accountTypeBadge = document.getElementById('accountTypeBadge');
+            const accountIdentityText = document.getElementById('accountIdentityText');
+            const accountHelpText = document.getElementById('accountHelpText');
+            const logoutBtn = document.getElementById('logoutBtn');
+            const authFormWrapper = document.getElementById('authFormWrapper');
+
+            if (!useCloudStorage) {
+                authStatusDot.className = 'w-2.5 h-2.5 rounded-full bg-brass border border-tolex-dark shrink-0';
+                authBtnLabel.textContent = '로컬 모드';
+                syncStatusPill.textContent = '브라우저 저장';
+                accountTypeBadge.textContent = '로컬 저장소';
+                accountTypeBadge.className = 'px-2 py-0.5 rounded bg-brass-light border border-tolex/40 text-[11px] font-extrabold text-tolex-dark';
+                accountIdentityText.textContent = '이 브라우저에 안전하게 저장 중';
+                accountHelpText.textContent = '클라우드 설정이 없는 환경에서는 현재 브라우저에 패치북이 자동 저장됩니다.';
+                logoutBtn.classList.add('hidden');
+                authFormWrapper.classList.add('hidden');
+                return;
+            }
+
+            if (!user) {
+                authStatusDot.className = 'w-2.5 h-2.5 rounded-full bg-neutral-400 border border-tolex-dark shrink-0';
+                authBtnLabel.textContent = '로그인';
+                syncStatusPill.textContent = '미연결';
+                accountTypeBadge.textContent = '로그아웃됨';
+                accountIdentityText.textContent = '로그인이 필요합니다';
+                logoutBtn.classList.add('hidden');
+                authFormWrapper.classList.remove('hidden');
+                return;
+            }
+
+            if (user.email) {
+                const shortName = user.email.split('@')[0];
+                authStatusDot.className = 'w-2.5 h-2.5 rounded-full bg-jewel-green border border-tolex-dark shrink-0';
+                authBtnLabel.textContent = shortName;
+                syncStatusPill.textContent = '계정 동기화 ON';
+                accountTypeBadge.textContent = '이메일 계정';
+                accountTypeBadge.className = 'px-2 py-0.5 rounded bg-jewel-green border border-tolex-dark text-[11px] font-extrabold text-white';
+                accountIdentityText.textContent = user.email;
+                accountHelpText.textContent = '내 이메일 계정에 패치북이 실시간으로 안전하게 저장되고 있습니다.';
+                logoutBtn.classList.remove('hidden');
+                authFormWrapper.classList.add('hidden');
+            } else {
+                authStatusDot.className = 'w-2.5 h-2.5 rounded-full bg-brass border border-tolex-dark shrink-0';
+                authBtnLabel.textContent = '로그인';
+                syncStatusPill.textContent = '게스트 동기화';
+                accountTypeBadge.textContent = '게스트 세션';
+                accountTypeBadge.className = 'px-2 py-0.5 rounded bg-brass-light border border-tolex/40 text-[11px] font-extrabold text-tolex-dark';
+                accountIdentityText.textContent = `게스트 ID: ${user.uid}`;
+                accountHelpText.textContent = '현재 자동 클라우드 세션으로 저장 중입니다. 이메일이나 Google로 로그인하면 다른 기기에서도 내 패치북을 불러올 수 있어요!';
+                logoutBtn.classList.add('hidden');
+                authFormWrapper.classList.remove('hidden');
+            }
+        }
+
+        function subscribeUserPatches(user) {
+            if (unsubscribePatches) {
+                unsubscribePatches();
+                unsubscribePatches = null;
+            }
+            if (!user || !db) {
+                savedPatches = [];
+                updateSavedBadge();
+                renderSavedModalList();
+                return;
+            }
+
+            const colRef = getUserPatchesCollection(user.uid);
+            unsubscribePatches = onSnapshot(
+                colRef,
+                (snapshot) => {
+                    const items = [];
+                    snapshot.forEach((docSnap) => {
+                        const raw = docSnap.data();
+                        let parsedModules = [];
+                        try {
+                            parsedModules = raw.modulesJson ? JSON.parse(raw.modulesJson) : [];
+                        } catch {
+                            parsedModules = [];
+                        }
+                        let parsedOrigGear = {};
+                        try {
+                            parsedOrigGear = raw.originalGearJson ? JSON.parse(raw.originalGearJson) : {};
+                        } catch {
+                            parsedOrigGear = {};
+                        }
+                        let parsedHardwareSetup = {};
+                        try {
+                            parsedHardwareSetup = raw.hardwareSetupJson ? JSON.parse(raw.hardwareSetupJson) : {};
+                        } catch {
+                            parsedHardwareSetup = {};
+                        }
+                        items.push({
+                            id: docSnap.id,
+                            savedAt: raw.savedAt || '',
+                            savedAtMs: raw.savedAtMs || 0,
+                            pickup: raw.pickup || '',
+                            part: raw.part || '',
+                            data: {
+                                songTitle: raw.songTitle || '',
+                                artist: raw.artist || '',
+                                patchName: raw.patchName || 'MP100_PATCH',
+                                tuning: raw.tuning || 'E Standard',
+                                bpm: raw.bpm || 120,
+                                confidenceLevel: raw.confidenceLevel || 'ARTIST_STYLE',
+                                confidenceReason: raw.confidenceReason || '',
+                                outputMode: raw.outputMode || 'FRFR_HEADPHONE',
+                                moodNote: raw.moodNote || '',
+                                originalGear: parsedOrigGear,
+                                hardwareSetup: parsedHardwareSetup,
+                                toneSummary: raw.toneSummary || '',
+                                guitarTip: raw.guitarTip || '',
+                                modules: parsedModules
+                            }
+                        });
+                    });
+                    items.sort((a, b) => b.savedAtMs - a.savedAtMs);
+                    savedPatches = items;
+                    updateSavedBadge();
+                    renderSavedModalList();
+                },
+                (err) => {
+                    console.error('패치북 동기화 오류:', err);
+                    showToast('패치북을 불러오는 중 오류가 발생했습니다.', 'error');
+                }
+            );
+        }
+
+        async function initCloudAuth() {
+            if (!firebaseConfig) {
+                useCloudStorage = false;
+                updateAuthUI(null);
+                loadLocalPatches();
+                return;
+            }
+
+            try {
+                app = initializeApp(firebaseConfig);
+                auth = getAuth(app);
+                db = getFirestore(app);
+                useCloudStorage = true;
+
+                onAuthStateChanged(auth, (user) => {
+                    currentUser = user;
+                    updateAuthUI(user);
+                    subscribeUserPatches(user);
+                });
+
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                } else if (!auth.currentUser) {
+                    await signInAnonymously(auth);
+                }
+            } catch (err) {
+                console.error('인증 초기화 오류:', err);
+                useCloudStorage = false;
+                updateAuthUI(null);
+                loadLocalPatches();
+                showToast('클라우드 연결 실패로 로컬 저장 모드로 전환되었습니다.', 'info');
+            }
+        }
+
+        async function saveCurrentPatch() {
+            if (!currentPatch) return;
+
+            if (!useCloudStorage) {
+                const newItem = {
+                    id: Date.now().toString(),
+                    savedAt: new Date().toLocaleDateString('ko-KR'),
+                    savedAtMs: Date.now(),
+                    pickup: pickupSelect.value,
+                    part: partSelect.value,
+                    data: currentPatch
+                };
+                savedPatches.unshift(newItem);
+                savedPatches = savedPatches.slice(0, 30);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(savedPatches));
+                updateSavedBadge();
+                renderSavedModalList();
+                showToast('내 MP-100 패치북에 저장되었습니다!');
+                return;
+            }
+
+            if (!currentUser || !db) {
+                showToast('계정 연결 중입니다. 잠시 후 다시 시도해 주세요.', 'info');
+                return;
+            }
+
+            const saveBtn = document.getElementById('savePatchBtn');
+            saveBtn.disabled = true;
+
+            try {
+                const colRef = getUserPatchesCollection(currentUser.uid);
+                await addDoc(colRef, {
+                    savedAt: new Date().toLocaleDateString('ko-KR'),
+                    savedAtMs: Date.now(),
+                    pickup: pickupSelect.value,
+                    part: partSelect.value,
+                    songTitle: currentPatch.songTitle || '',
+                    artist: currentPatch.artist || '',
+                    patchName: currentPatch.patchName || 'MP100_PATCH',
+                    tuning: currentPatch.tuning || 'E Standard',
+                    bpm: currentPatch.bpm || 120,
+                    confidenceLevel: currentPatch.confidenceLevel || 'ARTIST_STYLE',
+                    confidenceReason: currentPatch.confidenceReason || '',
+                    outputMode: currentPatch.outputMode || outputSelect.value,
+                    moodNote: currentPatch.moodNote || '',
+                    originalGearJson: JSON.stringify(currentPatch.originalGear || {}),
+                    hardwareSetupJson: JSON.stringify(currentPatch.hardwareSetup || {}),
+                    toneSummary: currentPatch.toneSummary || '',
+                    guitarTip: currentPatch.guitarTip || '',
+                    modulesJson: JSON.stringify(currentPatch.modules || [])
+                });
+                showToast('내 클라우드 패치북에 저장되었습니다!');
+            } catch (err) {
+                console.error('패치 저장 오류:', err);
+                showToast('패치 저장에 실패했습니다.', 'error');
+            } finally {
+                saveBtn.disabled = false;
+            }
+        }
+
+        async function deleteSavedPatch(docId) {
+            if (!useCloudStorage) {
+                savedPatches = savedPatches.filter(p => p.id !== docId);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(savedPatches));
+                updateSavedBadge();
+                renderSavedModalList();
+                showToast('패치가 삭제되었습니다.', 'info');
+                return;
+            }
+
+            if (!currentUser || !db) return;
+            try {
+                const docRef = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'patches', docId);
+                await deleteDoc(docRef);
+                showToast('패치가 삭제되었습니다.', 'info');
+            } catch (err) {
+                console.error('패치 삭제 오류:', err);
+                showToast('패치 삭제에 실패했습니다.', 'error');
+            }
+        }
+
+        function renderSavedModalList() {
+            const container = document.getElementById('savedListContainer');
+            const list = savedPatches;
+
+            if (list.length === 0) {
+                container.innerHTML = `
+                    <div class="py-10 text-center text-neutral-500 text-sm font-medium">
+                        아직 저장된 패치가 없습니다.<br>곡을 검색하고 <strong class="text-tolex">[패치 저장]</strong>을 눌러보세요!
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = '';
+            list.forEach(item => {
+                const row = document.createElement('div');
+                row.className = 'p-3.5 rounded-xl bg-white border border-tolex/40 shadow-sm hover:bg-tweed-panel transition flex items-center justify-between gap-3';
+                row.innerHTML = `
+                    <div class="min-w-0 cursor-pointer flex-1 load-patch-trigger">
+                        <div class="flex items-center gap-2">
+                            <span class="font-mono text-[11px] font-extrabold px-2 py-0.5 rounded bg-tolex text-brass-light">${item.data.patchName}</span>
+                            <span class="text-[11px] font-semibold text-neutral-500">${item.savedAt}</span>
+                        </div>
+                        <p class="text-sm font-extrabold text-tolex truncate mt-1">${item.data.artist} — ${item.data.songTitle}</p>
+                        <p class="text-[11px] font-semibold text-neutral-500 truncate">${item.pickup} · ${item.part}</p>
+                    </div>
+                    <button type="button" class="delete-patch-btn p-2 rounded-lg border border-transparent hover:border-jewel-red/40 text-neutral-500 hover:text-jewel-red hover:bg-rose-50 transition shrink-0" title="삭제">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                        </svg>
+                    </button>
+                `;
+
+                row.querySelector('.load-patch-trigger').addEventListener('click', () => {
+                    basePatchBeforeOutput = JSON.parse(JSON.stringify(item.data));
+                    if (item.data.outputMode && OUTPUT_GUIDES[item.data.outputMode]) {
+                        outputSelect.value = item.data.outputMode;
+                    }
+                    renderPatch(item.data);
+                    document.getElementById('savedModal').classList.add('hidden');
+                    showToast(`"${item.data.songTitle}" 패치를 불러왔습니다.`, 'info');
+                });
+
+                row.querySelector('.delete-patch-btn').addEventListener('click', () => {
+                    deleteSavedPatch(item.id);
+                });
+
+                container.appendChild(row);
+            });
+        }
+
+        function setAuthMode(mode) {
+            authMode = mode;
+            const tabLoginBtn = document.getElementById('tabLoginBtn');
+            const tabSignupBtn = document.getElementById('tabSignupBtn');
+            const authSubmitBtn = document.getElementById('authSubmitBtn');
+            const authErrorMsg = document.getElementById('authErrorMsg');
+
+            authErrorMsg.classList.add('hidden');
+
+            if (mode === 'login') {
+                tabLoginBtn.className = 'py-2 rounded-lg bg-tolex text-brass-light font-extrabold text-xs transition';
+                tabSignupBtn.className = 'py-2 rounded-lg bg-transparent text-neutral-600 hover:text-tolex font-bold text-xs transition';
+                authSubmitBtn.textContent = '이메일로 로그인';
+            } else {
+                tabLoginBtn.className = 'py-2 rounded-lg bg-transparent text-neutral-600 hover:text-tolex font-bold text-xs transition';
+                tabSignupBtn.className = 'py-2 rounded-lg bg-tolex text-brass-light font-extrabold text-xs transition';
+                authSubmitBtn.textContent = '새 계정 만들기';
+            }
+        }
+
+        function getAuthErrorMessage(code) {
+            switch (code) {
+                case 'auth/invalid-email': return '올바른 이메일 형식을 입력해 주세요.';
+                case 'auth/user-not-found':
+                case 'auth/wrong-password':
+                case 'auth/invalid-credential': return '이메일 또는 비밀번호가 올바르지 않습니다.';
+                case 'auth/email-already-in-use': return '이미 가입된 이메일입니다. 로그인 탭에서 로그인해 주세요.';
+                case 'auth/weak-password': return '비밀번호는 6자 이상으로 설정해 주세요.';
+                case 'auth/popup-blocked': return '브라우저에서 로그인 팝업이 차단되었습니다. 팝업 허용 후 다시 시도해 주세요.';
+                case 'auth/popup-closed-by-user': return 'Google 로그인 창이 닫혔습니다.';
+                case 'auth/unauthorized-domain': return '현재 도메인이 Firebase 승인된 도메인에 등록되지 않았습니다.';
+                case 'auth/operation-not-allowed': return '현재 환경에서는 해당 로그인 방식이 비활성화되어 있습니다. Firebase 콘솔에서 활성화해 주세요.';
+                default: return '로그인 처리 중 오류가 발생했습니다. 다시 시도해 주세요.';
+            }
+        }
+
+        // ============================================================
+        // 7. 텍스트 복사 및 빈티지 앰프 스타일 패치 카드 이미지(PNG) 저장
+        // ============================================================
+        function copyPatchAsText() {
+            if (!currentPatch) return;
+            const confLabel = (CONFIDENCE_STYLES[currentPatch.confidenceLevel] || CONFIDENCE_STYLES.ARTIST_STYLE).label;
+            const outLabel = (OUTPUT_GUIDES[currentPatch.outputMode] || OUTPUT_GUIDES.FRFR_HEADPHONE).label;
+            const orig = currentPatch.originalGear || {};
+            const hw = currentPatch.hardwareSetup || {};
+            const drum = hw.drum || {};
+
+            const lines = [
+                `[MP-100 톤 세팅] ${currentPatch.artist} - ${currentPatch.songTitle}`,
+                `신뢰도: ${confLabel} | 출력 환경: ${outLabel}`,
+                `패치명: ${currentPatch.patchName} | 튜닝: ${currentPatch.tuning} | ${currentPatch.bpm} BPM`,
+                `원곡 장비: 기타(${orig.guitar || '-'}) / 앰프(${orig.amp || '-'}) / 이펙터(${orig.effects || '-'})`,
+                `기타 세팅: ${currentPatch.guitarTip}`,
+                `EXP 1: ${hw.exp1 || '-'}`,
+                `CTRL: ${hw.ctrl || '-'}`,
+                `DRUM: #${drum.number ?? 31} ${drum.name || 'Classic Rock'} (${drum.timeSig || '4/4'}, ${drum.bpm || currentPatch.bpm || 120} BPM)`,
+                `----------------------------------------`
+            ];
+
+            currentPatch.modules.forEach(m => {
+                if (m.enabled) {
+                    const pStr = m.params.map(p => `${p.name}: ${p.displayValue}`).join(', ');
+                    lines.push(`[${m.slot}] ${m.modelName} (${m.basedOn}) -> ${pStr}`);
+                } else {
+                    lines.push(`[${m.slot}] OFF`);
+                }
+            });
+
+            copyTextToClipboard(lines.join('\n'), 'MP-100 세팅값이 클립보드에 복사되었습니다!');
+        }
+
+        function drawRoundedRect(ctx, x, y, w, h, r) {
+            ctx.beginPath();
+            ctx.moveTo(x + r, y);
+            ctx.lineTo(x + w - r, y);
+            ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+            ctx.lineTo(x + w, y + h - r);
+            ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+            ctx.lineTo(x + r, y + h);
+            ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+            ctx.lineTo(x, y + r);
+            ctx.quadraticCurveTo(x, y, x + r, y);
+            ctx.closePath();
+        }
+
+        function truncateText(ctx, text, maxWidth) {
+            const str = String(text || '');
+            if (ctx.measureText(str).width <= maxWidth) return str;
+            let trimmed = str;
+            while (trimmed.length > 0 && ctx.measureText(trimmed + '...').width > maxWidth) {
+                trimmed = trimmed.slice(0, -1);
+            }
+            return trimmed + '...';
+        }
+
+        function downloadPatchCardImage() {
+            if (!currentPatch) return;
+
+            const activeMods = currentPatch.modules.filter(m => m.enabled);
+            const cardWidth = 1080;
+            const modRows = Math.ceil(Math.max(1, activeMods.length) / 2);
+            const modRowHeight = 148;
+            const cardHeight = 470 + (modRows * modRowHeight) + 210;
+
+            const canvas = document.createElement('canvas');
+            canvas.width = cardWidth;
+            canvas.height = cardHeight;
+            const ctx = canvas.getContext('2d');
+
+            ctx.fillStyle = '#EAE0CC';
+            ctx.fillRect(0, 0, cardWidth, cardHeight);
+
+            const pad = 36;
+            const innerW = cardWidth - pad * 2;
+            const innerH = cardHeight - pad * 2;
+            drawRoundedRect(ctx, pad, pad, innerW, innerH, 24);
+            ctx.fillStyle = '#FBF7EE';
+            ctx.fill();
+            ctx.lineWidth = 4;
+            ctx.strokeStyle = '#241D18';
+            ctx.stroke();
+
+            ctx.save();
+            drawRoundedRect(ctx, pad + 2, pad + 2, innerW - 4, 92, 20);
+            ctx.clip();
+            ctx.fillStyle = '#241D18';
+            ctx.fillRect(pad, pad, innerW, 94);
+            ctx.fillStyle = '#CFA649';
+            ctx.fillRect(pad, pad + 90, innerW, 4);
+            ctx.restore();
+
+            ctx.beginPath();
+            ctx.arc(pad + 42, pad + 48, 10, 0, Math.PI * 2);
+            ctx.fillStyle = '#DC2626';
+            ctx.fill();
+            ctx.lineWidth = 2.5;
+            ctx.strokeStyle = '#CFA649';
+            ctx.stroke();
+
+            ctx.fillStyle = '#F0D98C';
+            ctx.font = 'italic bold 30px "Playfair Display", Georgia, serif';
+            ctx.fillText('Tone Lab', pad + 66, pad + 58);
+
+            ctx.fillStyle = '#C8B99B';
+            ctx.font = 'bold 16px "JetBrains Mono", monospace';
+            const rightSpec = 'HOTONE AMPERO MP-100 · PATCH CARD';
+            const specW = ctx.measureText(rightSpec).width;
+            ctx.fillText(rightSpec, pad + innerW - specW - 28, pad + 54);
+
+            const fpY = pad + 94;
+            const grad = ctx.createLinearGradient(pad, fpY, pad + innerW, fpY + 52);
+            grad.addColorStop(0, '#E8CE82');
+            grad.addColorStop(0.5, '#D4B055');
+            grad.addColorStop(1, '#C49A3B');
+            ctx.fillStyle = grad;
+            ctx.fillRect(pad + 2, fpY, innerW - 4, 52);
+            ctx.fillStyle = '#241D18';
+            ctx.fillRect(pad + 2, fpY + 50, innerW - 4, 2);
+
+            const confInfo = CONFIDENCE_STYLES[currentPatch.confidenceLevel] || CONFIDENCE_STYLES.ARTIST_STYLE;
+            const outInfo = OUTPUT_GUIDES[currentPatch.outputMode] || OUTPUT_GUIDES.FRFR_HEADPHONE;
+
+            drawRoundedRect(ctx, pad + 24, fpY + 11, 170, 30, 6);
+            ctx.fillStyle = '#241D18';
+            ctx.fill();
+            ctx.fillStyle = '#F0D98C';
+            ctx.font = 'bold 15px "JetBrains Mono", monospace';
+            ctx.fillText(truncateText(ctx, currentPatch.patchName || 'MP100_PATCH', 150), pad + 36, fpY + 31);
+
+            ctx.fillStyle = '#241D18';
+            ctx.font = 'bold 16px "JetBrains Mono", monospace';
+            ctx.fillText(`TUNING: ${currentPatch.tuning || 'E Standard'}   |   ${currentPatch.bpm || 120} BPM`, pad + 212, fpY + 32);
+
+            ctx.font = 'bold 15px Inter, sans-serif';
+            const confText = confInfo.label;
+            const confW = ctx.measureText(confText).width + 26;
+            drawRoundedRect(ctx, pad + innerW - confW - 24, fpY + 11, confW, 30, 6);
+            ctx.fillStyle = currentPatch.confidenceLevel === 'ORIGINAL_RIG' ? '#2B7A5B' : currentPatch.confidenceLevel === 'GENRE_ESTIMATE' ? '#D97706' : '#241D18';
+            ctx.fill();
+            ctx.fillStyle = '#FFFFFF';
+            ctx.fillText(confText, pad + innerW - confW - 11, fpY + 31);
+
+            let curY = fpY + 86;
+            ctx.fillStyle = '#241D18';
+            ctx.font = '800 34px Inter, sans-serif';
+            ctx.fillText(truncateText(ctx, `${currentPatch.artist} — ${currentPatch.songTitle}`, innerW - 56), pad + 28, curY);
+
+            curY += 32;
+            ctx.fillStyle = '#574B40';
+            ctx.font = '600 17px Inter, sans-serif';
+            ctx.fillText(truncateText(ctx, `OUTPUT: ${outInfo.label}  |  GUITAR: ${currentPatch.guitarTip || ''}`, innerW - 56), pad + 28, curY);
+
+            curY += 22;
+            const orig = currentPatch.originalGear || {};
+            drawRoundedRect(ctx, pad + 28, curY, innerW - 56, 76, 12);
+            ctx.fillStyle = '#F3EBD9';
+            ctx.fill();
+            ctx.lineWidth = 1.5;
+            ctx.strokeStyle = '#C8B99B';
+            ctx.stroke();
+
+            ctx.fillStyle = '#9A7426';
+            ctx.font = 'bold 13px Oswald, Inter, sans-serif';
+            ctx.fillText('ORIGINAL RIG REFERENCE', pad + 44, curY + 24);
+            ctx.fillStyle = '#241D18';
+            ctx.font = '600 16px Inter, sans-serif';
+            const rigLine = `Guitar: ${orig.guitar || '-'}  /  Amp: ${orig.amp || '-'}  /  FX: ${orig.effects || '-'}`;
+            ctx.fillText(truncateText(ctx, rigLine, innerW - 88), pad + 44, curY + 54);
+
+            curY += 108;
+            ctx.fillStyle = '#241D18';
+            ctx.font = 'bold 16px Oswald, Inter, sans-serif';
+            ctx.fillText(`ACTIVE SIGNAL CHAIN (${activeMods.length} / 9 MODULES ON)`, pad + 28, curY);
+
+            curY += 16;
+            const colGap = 20;
+            const colW = (innerW - 56 - colGap) / 2;
+
+            activeMods.forEach((mod, idx) => {
+                const col = idx % 2;
+                const row = Math.floor(idx / 2);
+                const x = pad + 28 + col * (colW + colGap);
+                const y = curY + row * modRowHeight;
+                const modStyle = MODULE_COLORS[mod.slot] || MODULE_COLORS.FX1;
+
+                drawRoundedRect(ctx, x, y, colW, modRowHeight - 16, 14);
+                ctx.fillStyle = '#FFFFFF';
+                ctx.fill();
+                ctx.lineWidth = 2;
+                ctx.strokeStyle = '#241D18';
+                ctx.stroke();
+
+                drawRoundedRect(ctx, x + 14, y + 14, 54, 28, 6);
+                ctx.fillStyle = modStyle.accent;
+                ctx.fill();
+                ctx.fillStyle = '#FFFFFF';
+                ctx.font = 'bold 14px "JetBrains Mono", monospace';
+                ctx.fillText(mod.slot, x + 26, y + 33);
+
+                ctx.fillStyle = '#241D18';
+                ctx.font = '800 20px Inter, sans-serif';
+                ctx.fillText(truncateText(ctx, mod.modelName, colW - 92), x + 78, y + 35);
+
+                ctx.fillStyle = '#6B5E52';
+                ctx.font = '600 13px Inter, sans-serif';
+                ctx.fillText(truncateText(ctx, `${mod.category} · ${mod.basedOn}`, colW - 28), x + 16, y + 60);
+
+                const params = (mod.params || []).slice(0, 5);
+                const pGap = 8;
+                const pW = (colW - 32 - pGap * (Math.max(1, params.length) - 1)) / Math.max(1, params.length);
+                params.forEach((p, pIdx) => {
+                    const px = x + 16 + pIdx * (pW + pGap);
+                    const py = y + 72;
+                    drawRoundedRect(ctx, px, py, pW, 46, 8);
+                    ctx.fillStyle = '#F3EBD9';
+                    ctx.fill();
+                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = '#C8B99B';
+                    ctx.stroke();
+
+                    ctx.fillStyle = '#241D18';
+                    ctx.font = 'bold 15px "JetBrains Mono", monospace';
+                    const valStr = truncateText(ctx, p.displayValue, pW - 8);
+                    const valW = ctx.measureText(valStr).width;
+                    ctx.fillText(valStr, px + (pW - valW) / 2, py + 21);
+
+                    ctx.fillStyle = '#6B5E52';
+                    ctx.font = 'bold 11px Inter, sans-serif';
+                    const nameStr = truncateText(ctx, p.name.toUpperCase(), pW - 8);
+                    const nameW = ctx.measureText(nameStr).width;
+                    ctx.fillText(nameStr, px + (pW - nameW) / 2, py + 38);
+                });
+            });
+
+            const hwY = curY + modRows * modRowHeight + 10;
+            const hw = currentPatch.hardwareSetup || {};
+            const drum = hw.drum || {};
+
+            drawRoundedRect(ctx, pad + 28, hwY, innerW - 56, 114, 14);
+            ctx.fillStyle = '#241D18';
+            ctx.fill();
+            ctx.lineWidth = 2;
+            ctx.strokeStyle = '#CFA649';
+            ctx.stroke();
+
+            ctx.fillStyle = '#F0D98C';
+            ctx.font = 'bold 14px Oswald, Inter, sans-serif';
+            ctx.fillText('MP-100 HARDWARE & DRUM MACHINE SETUP', pad + 46, hwY + 28);
+
+            ctx.fillStyle = '#FBF7EE';
+            ctx.font = '600 15px Inter, sans-serif';
+            ctx.fillText(truncateText(ctx, `EXP 1 : ${hw.exp1 || 'Volume Pedal (0 → 100)'}`, innerW - 92), pad + 46, hwY + 56);
+            ctx.fillText(truncateText(ctx, `CTRL  : ${hw.ctrl || 'FX2 + DLY ON/OFF / Hold: Tap Tempo'}`, innerW - 92), pad + 46, hwY + 80);
+            ctx.fillStyle = '#E8CE82';
+            ctx.font = 'bold 15px "JetBrains Mono", monospace';
+            const drumLine = `DRUM  : #${drum.number ?? 31} ${drum.name || 'Classic Rock'} (${drum.timeSig || '4/4'} · ${drum.bpm || currentPatch.bpm || 120} BPM)`;
+            ctx.fillText(truncateText(ctx, drumLine, innerW - 92), pad + 46, hwY + 103);
+
+            ctx.fillStyle = '#7C6E5D';
+            ctx.font = 'bold 14px "JetBrains Mono", monospace';
+            const footerText = `GENERATED BY TONE LAB · ${getShareUrl()}`;
+            const footerW = ctx.measureText(footerText).width;
+            ctx.fillText(footerText, (cardWidth - footerW) / 2, cardHeight - pad - 22);
+
+            try {
+                const safeName = (currentPatch.patchName || 'mp100_patch').replace(/[^a-zA-Z0-9_-]/g, '_');
+                const link = document.createElement('a');
+                link.download = `TONELAB_${safeName}.png`;
+                link.href = canvas.toDataURL('image/png');
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                showToast('패치 요약 카드 이미지(PNG)가 저장되었습니다!');
+            } catch (err) {
+                console.error('이미지 저장 오류:', err);
+                showToast('이미지 저장에 실패했습니다.', 'error');
+            }
+        }
+
+        // ============================================================
+        // 8. 이벤트 리스너 등록 및 초기화
+        // ============================================================
+        toneForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const query = songInput.value.trim();
+            if (!query) return;
+
+            const pickup = pickupSelect.value;
+            const part = partSelect.value;
+            const outputMode = outputSelect.value;
+            const moodNote = moodInput.value.trim();
+
+            const presetKey = query.toLowerCase();
+            const isDefaultOption =
+                pickup === '원곡 기준 자동' &&
+                part === '메인 톤 (리듬/리프 중심)' &&
+                moodNote === '';
+
+            if (isDefaultOption && BUILTIN_PRESETS[presetKey]) {
+                basePatchBeforeOutput = JSON.parse(JSON.stringify(BUILTIN_PRESETS[presetKey]));
+                const instantPatch = applyOutputModeToPatch(basePatchBeforeOutput, outputMode, moodNote);
+                renderPatch(instantPatch);
+                showToast('내장 인기 곡 프리셋으로 즉시 불러왔습니다.', 'info');
+                return;
+            }
+
+            generateBtn.disabled = true;
+            emptyStateSection.classList.add('hidden');
+            resultSection.classList.add('hidden');
+            loadingSection.classList.remove('hidden');
+
+            try {
+                const patchData = await fetchMP100Patch(
+                    query,
+                    pickup,
+                    part,
+                    outputMode,
+                    moodNote
+                );
+                renderPatch(patchData);
+            } catch (err) {
+                console.error(err);
+                loadingSection.classList.add('hidden');
+                if (currentPatch) {
+                    resultSection.classList.remove('hidden');
+                } else {
+                    emptyStateSection.classList.remove('hidden');
+                }
+                showToast(
+                    err.isUserMessage ? err.message : '톤 세팅을 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.',
+                    'error'
+                );
+            } finally {
+                generateBtn.disabled = false;
+            }
+        });
+
+        document.querySelectorAll('.quick-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                songInput.value = chip.dataset.song;
+                toneForm.requestSubmit();
+            });
+        });
+
+        document.querySelectorAll('.mood-chip').forEach(chip => {
+            chip.addEventListener('click', () => {
+                moodInput.value = chip.dataset.mood;
+                moodInput.focus();
+            });
+        });
+
+        outputSelect.addEventListener('change', () => {
+            if (!currentPatch) return;
+            const newOutputMode = outputSelect.value;
+            const sourcePatch = basePatchBeforeOutput || currentPatch;
+            const updatedPatch = applyOutputModeToPatch(
+                sourcePatch,
+                newOutputMode,
+                currentPatch.moodNote || moodInput.value.trim()
+            );
+            renderPatch(updatedPatch);
+            showToast(`출력 환경(${OUTPUT_GUIDES[newOutputMode]?.label || newOutputMode})에 맞춰 AMP/CAB 상태가 즉시 반영되었습니다.`, 'info');
+        });
+
+        filterAllBtn.addEventListener('click', () => {
+            showOnlyActive = false;
+            updateFilterButtons();
+            renderModuleCards();
+        });
+
+        document.getElementById('savePatchBtn').addEventListener('click', saveCurrentPatch);
+        document.getElementById('saveCardImgBtn').addEventListener('click', downloadPatchCardImage);
+        document.getElementById('copyTextBtn').addEventListener('click', copyPatchAsText);
+
+        document.getElementById('openSavedBtn').addEventListener('click', () => {
+            renderSavedModalList();
+            document.getElementById('savedModal').classList.remove('hidden');
+        });
+
+        document.getElementById('closeSavedBtn').addEventListener('click', () => {
+            document.getElementById('savedModal').classList.add('hidden');
+        });
+
+        document.getElementById('savedModal').addEventListener('click', (e) => {
+            if (e.target.id === 'savedModal') {
+                document.getElementById('savedModal').classList.add('hidden');
+            }
+        });
+
+        const authModal = document.getElementById('authModal');
+        document.getElementById('openAuthBtn').addEventListener('click', () => {
+            document.getElementById('authErrorMsg').classList.add('hidden');
+            authModal.classList.remove('hidden');
+        });
+
+        document.getElementById('closeAuthBtn').addEventListener('click', () => {
+            authModal.classList.add('hidden');
+        });
+
+        authModal.addEventListener('click', (e) => {
+            if (e.target.id === 'authModal') {
+                authModal.classList.add('hidden');
+            }
+        });
+
+        document.getElementById('tabLoginBtn').addEventListener('click', () => setAuthMode('login'));
+        document.getElementById('tabSignupBtn').addEventListener('click', () => setAuthMode('signup'));
+
+        document.getElementById('googleLoginBtn')?.addEventListener('click', async () => {
+            if (!auth) {
+                showToast('클라우드 인증이 연결되지 않은 로컬 모드입니다.', 'info');
+                return;
+            }
+            const googleBtn = document.getElementById('googleLoginBtn');
+            const authErrorMsg = document.getElementById('authErrorMsg');
+            authErrorMsg.classList.add('hidden');
+            googleBtn.disabled = true;
+
+            try {
+                const provider = new GoogleAuthProvider();
+                await signInWithPopup(auth, provider);
+                showToast('Google 계정으로 로그인되었습니다! 내 패치북을 불러옵니다.');
+                authModal.classList.add('hidden');
+            } catch (err) {
+                authErrorMsg.textContent = getAuthErrorMessage(err.code);
+                authErrorMsg.classList.remove('hidden');
+            } finally {
+                googleBtn.disabled = false;
+            }
+        });
+
+        document.getElementById('authForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            if (!auth) return;
+
+            const email = document.getElementById('authEmail').value.trim();
+            const password = document.getElementById('authPassword').value;
+            const authSubmitBtn = document.getElementById('authSubmitBtn');
+            const authErrorMsg = document.getElementById('authErrorMsg');
+
+            authErrorMsg.classList.add('hidden');
+            authSubmitBtn.disabled = true;
+
+            try {
+                if (authMode === 'login') {
+                    await signInWithEmailAndPassword(auth, email, password);
+                    showToast('로그인되었습니다! 내 패치북을 불러옵니다.');
+                } else {
+                    await createUserWithEmailAndPassword(auth, email, password);
+                    showToast('회원가입이 완료되었습니다!');
+                }
+                document.getElementById('authForm').reset();
+                authModal.classList.add('hidden');
+            } catch (err) {
+                authErrorMsg.textContent = getAuthErrorMessage(err.code);
+                authErrorMsg.classList.remove('hidden');
+            } finally {
+                authSubmitBtn.disabled = false;
+            }
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            if (!auth) return;
+            try {
+                await signOut(auth);
+                await signInAnonymously(auth);
+                showToast('로그아웃되었습니다.', 'info');
+                authModal.classList.add('hidden');
+            } catch (err) {
+                console.error('로그아웃 오류:', err);
+            }
+        });
+
+        document.getElementById('mobileTopBtn')?.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+        document.getElementById('mobileSaveBtn')?.addEventListener('click', saveCurrentPatch);
+        document.getElementById('mobileImgBtn')?.addEventListener('click', downloadPatchCardImage);
+        document.getElementById('mobileCopyBtn')?.addEventListener('click', copyPatchAsText);
+
+        function getShareUrl() {
+            const href = window.location.href;
+            if (!href || href.startsWith('blob:') || href.startsWith('file:') || href.startsWith('about:') || href.includes('googleusercontent')) {
+                return 'https://mp100-tone-lab.vercel.app';
+            }
+            return href;
+        }
+
+        async function copyTextToClipboard(text, successMsg) {
+            if (navigator.clipboard && window.isSecureContext) {
+                try {
+                    await navigator.clipboard.writeText(text);
+                    showToast(successMsg);
+                    return;
+                } catch {
+                    // 샌드박스/권한 제한 시 아래 폴백 방식으로 전환
+                }
+            }
+
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.setAttribute('readonly', '');
+            textArea.style.position = 'fixed';
+            textArea.style.top = '0';
+            textArea.style.left = '-9999px';
+            textArea.style.opacity = '0';
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            textArea.setSelectionRange(0, text.length);
+
+            try {
+                const ok = document.execCommand('copy');
+                if (ok) {
+                    showToast(successMsg);
+                } else {
+                    showToast('복사에 실패했습니다. 주소를 직접 선택해 복사해 주세요.', 'error');
+                }
+            } catch {
+                showToast('복사에 실패했습니다. 주소를 직접 선택해 복사해 주세요.', 'error');
+            }
+            document.body.removeChild(textArea);
+        }
+
+        function buildShareMessage() {
+            const url = getShareUrl();
+            if (currentPatch) {
+                return `[TONE LAB] Hotone Ampero MP-100 톤 세팅 추천기\n지금 보고 있는 곡: ${currentPatch.artist} - ${currentPatch.songTitle}\n연주하고 싶은 곡을 입력하면 MP-100 9모듈 노브 세팅을 바로 알려줍니다.\n${url}`;
+            }
+            return `[TONE LAB] Hotone Ampero MP-100 곡별 톤 세팅 추천기\n연주하고 싶은 곡을 입력하면 공식 매뉴얼(V3.0) 기반 9모듈 노브 세팅을 한눈에 볼 수 있어요.\n${url}`;
+        }
+
+        const shareUrlInput = document.getElementById('shareUrlInput');
+        if (shareUrlInput) {
+            shareUrlInput.value = getShareUrl();
+            shareUrlInput.addEventListener('click', () => shareUrlInput.select());
+        }
+
+        document.getElementById('copyAppLinkBtn')?.addEventListener('click', () => {
+            copyTextToClipboard(getShareUrl(), '앱 링크가 클립보드에 복사되었습니다!');
+        });
+
+        document.getElementById('copyShareMsgBtn')?.addEventListener('click', () => {
+            copyTextToClipboard(buildShareMessage(), '초대 문구와 링크가 함께 복사되었습니다!');
+        });
+
+        document.getElementById('nativeShareBtn')?.addEventListener('click', async () => {
+            const url = getShareUrl();
+            const text = buildShareMessage();
+            if (navigator.share) {
+                try {
+                    await navigator.share({
+                        title: 'TONE LAB — Hotone Ampero MP-100 톤 세팅 추천기',
+                        text,
+                        url
+                    });
+                    return;
+                } catch (err) {
+                    if (err && err.name === 'AbortError') return;
+                }
+            }
+            copyTextToClipboard(text, '기기 공유가 지원되지 않아 초대 문구와 링크를 복사했습니다.');
+        });
+
+        document.getElementById('shareXBtn')?.addEventListener('click', () => {
+            const url = getShareUrl();
+            const shareText = currentPatch
+                ? `Hotone Ampero MP-100으로 "${currentPatch.artist} - ${currentPatch.songTitle}" 톤 세팅을 찾았습니다! #MP100 #Ampero #기타톤`
+                : `연주하고 싶은 곡을 입력하면 Hotone Ampero MP-100 노브 세팅을 알려주는 TONE LAB! #MP100 #Ampero #기타이펙터`;
+            const intentUrl = `https://twitter.com/intent/tweet?text=${encodeURIComponent(shareText)}&url=${encodeURIComponent(url)}`;
+            window.open(intentUrl, '_blank', 'noopener,noreferrer');
+        });
+
+        // 클라우드 인증 및 패치북 동기화 시작
+        initCloudAuth();
+    </script>
+</body>
+</html>
